@@ -9,6 +9,11 @@ namespace Ling.Models.Services
     {
         public LingDbContext _context { get; set; }
 
+        public RecordingService(LingDbContext context)
+        {
+            _context = context;
+        }
+
         public Task AddRecording(Recording recording)
         {
             throw new System.NotImplementedException();
