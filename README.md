@@ -15,7 +15,7 @@ etc.
 
 
 ## Database Schema
-![db-schema](assets/WebAppDBSchema.png)
+![db-schema](Assets/DBSchema.PNG)
 
 ## Tools used
 Visual Studio, .NET MVC CORE, Entity Framework, CSS/HTML, SQL database, Azure, Google Cloud AI API
