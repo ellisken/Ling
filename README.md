@@ -2,7 +2,7 @@
 Add description
 
 ## Planning
-[Project Plan](/documents/Project-Plan.md)
+[Project Plan](/Project-Plan.md)
 
 ## Deployed Site
 
