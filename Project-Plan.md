@@ -91,13 +91,13 @@ A page that lists and allows a user to listen to all recordings submitted to the
 	  - 
     
 ## Wireframes
-![wireframe](../assets/lingwf.png)
+![wireframe](/Assets/lingwf.PNG)
 
 ## Dataflow Diagram
-![dataflow](../assets/DataFlowDiagram.png)
+![dataflow](/Assets/DataFlowDiagram.png)
 
 ## Database Schema
-![DB Schema](../assets/DBSchema.png)
+![DB Schema](/Assets/DBSchema.PNG)
 
 *Description* 
 * Language: This table holds the data for each language supported by the app.
