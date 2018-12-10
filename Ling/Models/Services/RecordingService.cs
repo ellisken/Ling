@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Ling.Models.Interfaces;
 
 namespace Ling.Models.Services
 {
-    public class RecordingService
+    public class RecordingService : IRecording
     {
     }
 }
