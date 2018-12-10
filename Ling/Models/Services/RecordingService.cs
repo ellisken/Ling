@@ -1,5 +1,6 @@
 ﻿using Ling.Data;
 using Ling.Models.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,14 +28,14 @@ namespace Ling.Models.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task<Recording> GetRecording(int id)
+        public async Task<Recording> GetRecording(int id)
         {
-            throw new System.NotImplementedException();
+            return await _context.Recordings.FirstOrDefaultAsync(r => r.ID == id);
         }
 
-        public Task<IEnumerable<Recording>> GetRecordings()
+        public async Task<IEnumerable<Recording>> GetRecordings()
         {
-            throw new System.NotImplementedException();
+            return await _context.Recordings.ToListAsync();
         }
 
         public Task UpdateRecording(Recording recording)
