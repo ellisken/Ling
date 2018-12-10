@@ -14,6 +14,13 @@ namespace Ling.Data
 
         }
 
+        //Seed Language data
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Language>().HasData();
+
+        }
+
         public DbSet<Language> Languages { get; set; }
         public DbSet<Recording> Recordings { get; set; }
     }
