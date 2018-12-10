@@ -14,9 +14,10 @@ namespace Ling.Models.Services
             _context = context;
         }
 
-        public Task AddRecording(Recording recording)
+        public async Task AddRecording(Recording recording)
         {
-            throw new System.NotImplementedException();
+            _context.Recordings.Add(recording);
+            await _context.SaveChangesAsync();
         }
 
         public Task DeleteRecording(int id)
