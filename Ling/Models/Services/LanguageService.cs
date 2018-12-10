@@ -1,4 +1,5 @@
 ﻿using Ling.Data;
+using Ling.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ling.Models.Services
 {
-    public class LanguageService
+    public class LanguageService : ILanguage
     {
         private LingDbContext _context;
 
