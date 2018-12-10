@@ -21,13 +21,6 @@ namespace Ling.Models.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteRecording(int id)
-        {
-            var recording = _context.Recordings.Find(id);
-            _context.Recordings.Remove(recording);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<Recording> GetRecording(int id)
         {
             return await _context.Recordings.FirstOrDefaultAsync(r => r.ID == id);
@@ -38,9 +31,17 @@ namespace Ling.Models.Services
             return await _context.Recordings.ToListAsync();
         }
 
-        public Task UpdateRecording(Recording recording)
+        public async Task UpdateRecording(Recording recording)
         {
-            throw new System.NotImplementedException();
+            _context.Recordings.Update(recording);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteRecording(int id)
+        {
+            var recording = await GetRecording(id);
+            _context.Recordings.Remove(recording);
+            await _context.SaveChangesAsync();
         }
     }
 }
