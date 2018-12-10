@@ -20,9 +20,11 @@ namespace Ling.Models.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteRecording(int id)
+        public async Task DeleteRecording(int id)
         {
-            throw new System.NotImplementedException();
+            var recording = _context.Recordings.Find(id);
+            _context.Recordings.Remove(recording);
+            await _context.SaveChangesAsync();
         }
 
         public Task<Recording> GetRecording(int id)
