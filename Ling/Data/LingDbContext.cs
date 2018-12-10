@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ling.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,8 @@ namespace Ling.Data
         {
 
         }
+
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<Recording> Recordings { get; set; }
     }
 }
