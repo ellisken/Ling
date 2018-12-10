@@ -60,35 +60,35 @@ A page that lists and allows a user to listen to all recordings submitted to the
   
 ## User Stories
 ### Web App  
-* As a Developer, I would like to use Azure DevOps as my Project Management Tool so that I can organize my tasks efficiently.
+* As a user, I would like to have a page where I can view all past recordings so that I can explore other language clips.
   - Features
-    - 
-    - 
-    - 
+    - User can navigate to a "Clips" page
+    - User can select a clip and listen to it
+    - Information about the clip will be shown, like language and length
   - Acceptance
-    - 
-    - 
+    - Ensure a user can see all clips
+    - Ensure a user can listen to any clip listed
 * As a Developer, I want to build out the skeleton of an MVC site with a Home Controller so that I can effectively make use of .NET’s MVC framework.
   - Features
-    - 
-    - 
+    - Each model will have its own service and controller
+    - Each controller's action will correspond to a view
   - Acceptance
-    - 
+    - Ensure that the site's architecture matches MVC 
 * As a Developer, I want to use SQL Server as my database so that I can easily save, update, and access site data.
   - Features
-    - 
-	  - 
-    - 
+    - Admin can perform all basic CRUD operations on each table in the database 
+    - Admin can wipe and/or migrate and update the database if needed
   - Acceptance
-    -  
-    - 
-* AAs a user, I would like to be able to record a sound clip, listen to it, and possibly re-record it before triggering language analysis so that I have moderate control over the sound quality.
+    - The SQL site is hosted on Azure
+    - Basic CRUD operations have been tested
+* As a user, I would like to be able to record a sound clip, listen to it, and possibly re-record it before triggering language analysis so that I have moderate control over the sound quality.
   - Features
-    - 
-    - 
+    - User can record a sound clip up to 5 seconds long
+    - User can listen to a clip after recording and re-record
+    - User can send the clip off for language analysis
   - Acceptance
-    -  
-	  - 
+    - The user can successfully record and play back a sound clip
+    - The user can send a clip off for analysis and see a listing of the results
     
 ## Wireframes
 ![wireframe](/Assets/lingwf.PNG)
