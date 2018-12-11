@@ -74,6 +74,7 @@ function startRecording() {
     });
 }
 
+// TODO: When styling, the "enabled" class can have an active style... maybe pause icon versus play icon
 function toggleEnabledOnRecordButton() {
     if ($(recordButton).hasClass("enabled")) {
         $(recordButton).removeClass("enabled");
@@ -107,7 +108,7 @@ function pauseOrResumeRecording() {
 function stopRecording() {
     console.log("Stop button clicked");
 
-    // Disable the stop button and enable start/pause to allow new recordings
+    // Disable the stop button
     stopButton.disabled = true;
 
     // Reset "Record" button text when recording is stopped
