@@ -15,3 +15,8 @@ let input;
 let AudioContext = window.AudioContext || webkit.AudioContext;
 // New audio context that helps us record
 let audioContext = new AudioContext;
+
+const recordButton = document.getElementById("record-button");
+const pauseButton = document.getElementById("pause-button");
+const stopButton = document.getElementById("stop-button");
+const saveButton = document.getElementById("save-button");
