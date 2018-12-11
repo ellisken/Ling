@@ -28,5 +28,13 @@ namespace Ling.Models
             await cbc.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob});
             return cbc;
         }
+
+        public CloudBlob GetBlob(string fileName, string containerName)
+        {
+            var container = CloudBlobClient.GetContainerReference(containerName);
+            var blob = container.GetBlobReference(fileName);
+            return blob;
+
+        }
     }
 }
