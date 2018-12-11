@@ -26,6 +26,14 @@ namespace Ling.Controllers
             return View();
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> Create(string blobUrl, string filename)
+        //{
+            //Send to blob storage
+            //Get Uri back from blob storage
+            //Create Recording entry in app's DB
+        //    return;
+        //}
         //TODO: 
         //Action that receives a clip?
         //Action that sends a clip to API, gets results, saves clip to DB, and displays results to user
