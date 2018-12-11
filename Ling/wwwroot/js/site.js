@@ -130,6 +130,10 @@ function stopRecording() {
     rec.exportWAV(createDownloadLink);
 }
 
+
+/* Functions to call after audio has been recorded */
+
+// Cited from Recorder.js tutorial. May be tweaked to our app if necessary.
 function createDownloadLink(blob) {
 
     var url = URL.createObjectURL(blob);
