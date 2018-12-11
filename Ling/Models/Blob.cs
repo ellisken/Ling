@@ -18,6 +18,12 @@ namespace Ling.Models
         {
             Configuration = configuration;
             CloudStorageAccount = CloudStorageAccount.Parse(Configuration["CloudStorageConnection"]);
+            CloudBlobClient = CloudStorageAccount.CreateCloudBlobClient();
+        }
+
+        public async Task<CloudBlobClient> GetContainer(string containerName)
+        {
+            CloudBlobClient cbc = CloudBlobClient.GetContainerReference();
         }
     }
 }
