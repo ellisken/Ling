@@ -17,6 +17,18 @@ namespace Ling.Data
         //Seed Language data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Recording>().HasData(
+                new Recording
+                {
+                    ID = 1,
+                    LanguageID = 10;
+                    Audio = ;
+                    AlternateLanguages = "Portuguese, Spanish";
+                    Length = 0.0;
+                }
+                
+            );
+
             modelBuilder.Entity<Language>().HasData(
                 new Language
                 {

@@ -20,7 +20,7 @@ namespace Ling.Controllers
         }
 
         //TODO: 
-        //Action that records a clip?
+        //Action that receives a clip?
         //Action that sends a clip to API, gets results, saves clip to DB, and displays results to user
         //etc.
 
