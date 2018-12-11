@@ -21,9 +21,12 @@ namespace Ling.Models
             CloudBlobClient = CloudStorageAccount.CreateCloudBlobClient();
         }
 
-        public async Task<CloudBlobClient> GetContainer(string containerName)
+        public async Task<CloudBlobContainer> GetContainer(string containerName)
         {
-            CloudBlobClient cbc = CloudBlobClient.GetContainerReference();
+            CloudBlobContainer cbc = CloudBlobClient.GetContainerReference(containerName);
+            await cbc.CreateIfNotExistsAsync();
+            await cbc.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob});
+            return cbc;
         }
     }
 }
