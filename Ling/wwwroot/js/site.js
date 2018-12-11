@@ -26,7 +26,7 @@ recordButton.addEventListener("click", startRecording);
 pauseButton.addEventListener("click", pauseRecording);
 stopButton.addEventListener("click", stopRecording);
 
-// Event handler that fires when a user hits the "Start" button to record an audio clip
+// Event handler to "Start" recording an audio clip
 function startRecording() {
     console.log("start recording has been clicked!");
 
@@ -65,4 +65,20 @@ function startRecording() {
         pauseButton.disabled = true;
         stopButton.disabled = true;
     });
+}
+
+// Event handler to "Pause" a recording
+function pauseRecording() {
+    console.log("pause hit on rec.recording =", rec.recording);
+
+    if (rec.recording) {
+        // pause
+        rec.stop();
+        // change UI text of "Pause" button to "Resume"
+        pauseButton.innerHTML = "Resume";
+    } else {
+        // resume
+        rec.record();
+        pauseButton.innerHTML = "Pause";
+    }
 }
