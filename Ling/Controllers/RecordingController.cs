@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,6 +11,12 @@ namespace Ling.Controllers
 {
     public class RecordingController : Controller
     {
+        IConfiguration _configuration;
+
+        public RecordingController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         /// <summary>
         /// Displays all saved recordings
         /// </summary>
@@ -20,7 +27,7 @@ namespace Ling.Controllers
         }
 
         //TODO: 
-        //Action that records a clip?
+        //Action that receives a clip?
         //Action that sends a clip to API, gets results, saves clip to DB, and displays results to user
         //etc.
 
