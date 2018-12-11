@@ -26,7 +26,10 @@ recordButton.addEventListener("click", startRecording);
 pauseButton.addEventListener("click", pauseRecording);
 stopButton.addEventListener("click", stopRecording);
 
-// Event handler to "Start" recording an audio clip
+
+/* Event handlers */
+
+// "Start" recording an audio clip
 function startRecording() {
     console.log("start recording has been clicked!");
 
@@ -67,7 +70,7 @@ function startRecording() {
     });
 }
 
-// Event handler to "Pause" a recording
+// "Pause" a recording
 function pauseRecording() {
     console.log("pause hit on rec.recording =", rec.recording);
 
@@ -81,4 +84,26 @@ function pauseRecording() {
         rec.record();
         pauseButton.innerHTML = "Pause";
     }
+}
+
+// "Stop" a recording
+function stopRecording() {
+    console.log("Stop button clicked");
+
+    // Disable the stop button and enable start/pause to allow new recordings
+    recordButton.disabled = false;
+    pauseButton.disabled = false;
+    stopButton.disabled = true;
+
+    // Reset "Pause" button text in case recording is stopped while paused
+    pauseButton.innerHTML = "Pause"
+
+    // Get Recorder object to stop recording
+    rec.stop();
+
+    // Stop microphone access
+    getUserMediaStream.getAudioTracks()[0].stop();
+
+    // Create WAV blob and pass on to uploadToServer
+    rec.exportWAV(uploadToServer);
 }
