@@ -127,10 +127,10 @@ function stopRecording() {
     stopButton.disabled = true;
 
     // Reset "Record" button text when recording is stopped
-    recordButton.innerHTML = "Record";
+    $recordButton.html("Record");
 
     // Remove "inProgress" class to show recording is stopped
-    $(recordButton).removeClass("inProgress");
+    $recordButton.removeClass("inProgress");
 
     // Get Recorder object to stop recording
     rec.stop();
@@ -138,7 +138,7 @@ function stopRecording() {
     // Stop microphone access
     getUserMediaStream.getAudioTracks()[0].stop();
 
-    // Create WAV blob and pass on to uploadToServer
+    // Create WAV blob and pass on to createDownloadLink
     rec.exportWAV(createDownloadLink);
 }
 
@@ -195,9 +195,43 @@ function createDownloadLink(blob) {
 
     //add the li element to the ol
     recordingsList.appendChild(li);
+
+    uploadToServer(blobUrl);
+}
+
+function createDownloadLinkCondensed(blob) {
+
+    var url = URL.createObjectURL(blob);
+    var au = document.createElement('audio');
+    var li = document.createElement('li');
+    var link = document.createElement('a');
+
+    //add controls to the <audio> element
+    au.controls = true;
+    au.src = url;
+
+    //link the a element to the blob
+    link.href = url;
+    link.download = new Date().toISOString() + '.wav';
+    link.innerHTML = link.download;
+
+    //add the new audio and a elements to the li element
+    li.appendChild(au);
+    li.appendChild(link);
+
+    //add the li element to the ordered list
+    recordingsList.appendChild(li);
 }
 
 // Make an AJAX POST request to create a new Recording object in the database
-function uploadToServer(blob) {
+function uploadToServer(blobUrl) {
+    e.preventDefault();
 
+    $.ajax({
+        url: '/Recording/Create',
+        method: 'POST',
+        data: {
+            FileName: blobUrl,
+        }
+    });
 }
