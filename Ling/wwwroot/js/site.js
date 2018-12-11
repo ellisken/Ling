@@ -18,7 +18,6 @@ let audioContext = new AudioContext;
 
 // Grab DOM elements
 const recordButton = document.getElementById("record-button");
-const pauseButton = document.getElementById("pause-button");
 const stopButton = document.getElementById("stop-button");
 
 // Attach event listeners
