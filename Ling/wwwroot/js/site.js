@@ -107,3 +107,8 @@ function stopRecording() {
     // Create WAV blob and pass on to uploadToServer
     rec.exportWAV(uploadToServer);
 }
+
+// Make an AJAX POST request to create a new Recording object in the database
+function uploadToServer(blob) {
+
+}
