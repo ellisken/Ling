@@ -1,4 +1,4 @@
-﻿/* Tutorial to get started with Recorder.js
+﻿/* Tutorial used to get started with Recorder.js
  * https://addpipe.com/blog/using-recorder-js-to-capture-wav-audio-in-your-html5-web-site/
 */
 
@@ -52,7 +52,7 @@ function startRecording() {
         // Use the stream
         input = audioContext.createMediaStreamSource(stream);
 
-        // Create the Recorder object and configure to record mono sound(1 channel) because dual channel will result in double the file size
+        // Create the Recorder object and configure it to record mono channel sound because dual channel will result in double the file size
         rec = new Recorder(input, { numChannels: 1 });
 
         // Begin recording
@@ -72,12 +72,12 @@ function pauseRecording() {
     console.log("pause hit on rec.recording =", rec.recording);
 
     if (rec.recording) {
-        // pause
+        // Pause
         rec.stop();
-        // change UI text of "Pause" button to "Resume"
+        // Change UI text of "Pause" button to "Resume"
         pauseButton.innerHTML = "Resume";
     } else {
-        // resume
+        // Resume
         rec.record();
         pauseButton.innerHTML = "Pause";
     }
