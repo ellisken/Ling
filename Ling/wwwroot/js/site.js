@@ -233,5 +233,7 @@ function uploadToServer(blobUrl) {
         data: {
             FileName: blobUrl,
         }
+    }).then((resp, status, xhr) => {
+        console.log("recording posts");
     });
 }
