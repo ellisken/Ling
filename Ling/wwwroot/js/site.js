@@ -39,7 +39,7 @@ function startRecording() {
     pauseButton.disables = false;
 
     /*
-      getUserMedia() is a promise-based method that prompts the user for permission to use a a media input, which produces a MediaStream object with a specified list of a/v tracks. In our case, the stream wil have an audio track.
+      getUserMedia() is a promise-based method that prompts the user for permission to use a media input, which produces a MediaStream object with a specified list of a/v tracks. In our case, the stream wil have an audio track.
         https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
     */
 
