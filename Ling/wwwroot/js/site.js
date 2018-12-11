@@ -26,6 +26,7 @@ recordButton.addEventListener("click", startRecording);
 pauseButton.addEventListener("click", pauseRecording);
 stopButton.addEventListener("click", stopRecording);
 
+// Event handler that fires when a user hits the "Start" button to record an audio clip
 function startRecording() {
     console.log("start recording has been clicked!");
 
@@ -35,12 +36,33 @@ function startRecording() {
     pauseButton.disables = false;
 
     /*
-      getUserMedia() is a promise-based method prompts the user for permission to use a a media input, which produces a MediaStream object with a specified list of a/v tracks. In our case, the stream wil have an audio track.
+      getUserMedia() is a promise-based method that prompts the user for permission to use a a media input, which produces a MediaStream object with a specified list of a/v tracks. In our case, the stream wil have an audio track.
         https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
     */
 
     // Set request permissions for only audio
     const constraints = { audio: true, video: false };
 
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+        console.log("GUM success! i'm in the promise's callback!");
 
+        // Assign our getUserMediaStream global variable to the recorded stream for later use
+        getUserMediaStream = stream;
+
+        // Use the stream
+        input = audioContext.createMediaStreamSource(stream);
+
+        // Create the Recorder object and configure to record mono sound(1 channel) because dual channel will result in double the file size
+        rec = new Recorder(input, { numChannels: 1 });
+
+        // Begin recording
+        rec.record();
+
+        console.log("recording has started");
+    }).catch((err) => {
+        // Enable the "Record" button again if the recording fails
+        recordButton.disabled = false;
+        pauseButton.disabled = true;
+        stopButton.disabled = true;
+    });
 }
