@@ -7,7 +7,7 @@
 // Stream from getUserMedia()
 let getUserMediaStream;
 // Recorder.js object
-let recording;
+let rec;
 // MediaStreamAudioSourceNode we will be recording
 let input;
 
