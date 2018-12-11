@@ -20,10 +20,27 @@ let audioContext = new AudioContext;
 const recordButton = document.getElementById("record-button");
 const pauseButton = document.getElementById("pause-button");
 const stopButton = document.getElementById("stop-button");
-const saveButton = document.getElementById("save-button");
 
 // Attach event listeners
 recordButton.addEventListener("click", startRecording);
 pauseButton.addEventListener("click", pauseRecording);
 stopButton.addEventListener("click", stopRecording);
-saveButton.addEventListener("click", saveRecording);
+
+function startRecording() {
+    console.log("start recording has been clicked!");
+
+    // Disable the record button until getUserMedia() returns a success or fail
+    recordButton.disabled = true;
+    stopButton.disabled = false;
+    pauseButton.disables = false;
+
+    /*
+      getUserMedia() is a promise-based method prompts the user for permission to use a a media input, which produces a MediaStream object with a specified list of a/v tracks. In our case, the stream wil have an audio track.
+        https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+    */
+
+    // Set request permissions for only audio
+    const constraints = { audio: true, video: false };
+
+
+}
