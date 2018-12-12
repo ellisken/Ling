@@ -8,8 +8,7 @@ namespace Ling.Models
         public int ID { get; set; }
         public int LanguageID { get; set; }
         public string FileName { get; set; }
-        public string AlternateLanguages { get; set; }
-        public decimal Length { get; set; }
+        public string Transcription { get; set; }
 
         // Navigation prop
         public Language Language { get; set; }

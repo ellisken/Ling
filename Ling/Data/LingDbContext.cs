@@ -22,12 +22,11 @@ namespace Ling.Data
             //    {
             //        ID = 1,
             //        LanguageID = 10;
-            //        Audio = ;
-            //        AlternateLanguages = "Portuguese, Spanish";
-            //        Length = 0.0;
-            //    }
+            //        FileName = "";
+            //        Transcription = "";
+            //    };
                 
-            //);
+            //)
 
             modelBuilder.Entity<Language>().HasData(
                 new Language

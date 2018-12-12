@@ -39,7 +39,7 @@ namespace Ling
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             //Add db context
-            services.AddDbContext<LingDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:ProductionDB"]));
+            services.AddDbContext<LingDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
 
             //Add Model Services
