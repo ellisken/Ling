@@ -51,30 +51,34 @@ namespace Ling.Controllers
 
         /// <summary>
         /// Create a Recording object with data grabbed from Azure Blob Storage container.
-        /// 
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         public async Task<TranscriptionViewModel> Create()
-
         {
+            // FormData sent by XHR on the front-end. Script can be found in site.js
             var data = HttpContext.Request.Form.Files[0];
+            // Language Region selected by user
             var langRegion = HttpContext.Request.Form["language_region"];
+            // Create Blob instance
             Blob blob = new Blob(_configuration["BlobStorageAccountName"], _configuration["BlobStorageKey"], _configuration);
+            // Grab container that holds all audio blobs
             CloudBlobContainer container = await blob.GetContainer("soundrecording");
 
-            //Send to blob storage
+            // Send to blob storage
             string path = await CreatePath(data);
             await blob.UploadFile(container, data.FileName, path);
 
-
-            //Get Uri back from blob storage
+            // Get Uri back from blob storage
             var newBlobURI = blob.GetBlob(data.FileName, container).Uri.AbsoluteUri;
+            // Set default language to first string in alt languages List for selected region
             string defaultLang = Languages[langRegion].First();
+            // Set alternate languages to remaining items in List
             List<string> alts = Languages[langRegion].GetRange(1, Languages[langRegion].Count - 1);
+            // Transcribe audio blob with best guess(es) per selected region
             var result = await _recordings.Transcribe(newBlobURI, defaultLang, alts);
 
-            //TODO: add language result to recording before saving
+            // Initialize Recording object and set properties
             Recording recording = new Recording()
             {
                 FileName = data.FileName,
@@ -82,6 +86,7 @@ namespace Ling.Controllers
                 Transcription = result.Transcript,
             };
 
+            // Get language of transcribed result and set it as prop of transcription view model
             if (result.Language != null)
             {
                 Language language = await _languages.GetLanguage(result.Language.ToLower());
@@ -92,8 +97,8 @@ namespace Ling.Controllers
             //Create Recording entry in app's DB
             await _recordings.AddRecording(recording);
 
+            // Return transcription view model
             return result;
-
         }
 
         public async Task<string> CreatePath(IFormFile data)
