@@ -176,7 +176,7 @@ function appendAudioElement(blob) {
     }
 }
 
-const uploadEventHandler = (event, blob, filename) => {
+const uploadEventHandler = (blob, filename) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function (e) {
         if (this.readyState === 4) {
