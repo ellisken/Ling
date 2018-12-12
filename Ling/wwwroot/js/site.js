@@ -156,7 +156,7 @@ function appendAudioElement(blob) {
 
     // Create html elements
     const au = document.createElement('audio');
-    const li = document.createElement('li');
+    const li = document.createElement('div');
 
     //name of .wav file to use during upload and download (without extendion)
     let filename = new Date().toISOString();
@@ -168,9 +168,6 @@ function appendAudioElement(blob) {
     //add the new audio element to li
     li.appendChild(au);
 
-    //add the filename to the li
-    li.appendChild(document.createTextNode(filename + ".wav "));
-
     // Call function that appends link to upload to server
     appendUploadLinkAndAttachEventListener(blob, filename, li);
 }
@@ -181,7 +178,9 @@ const uploadEventHandler = (e, blob, filename) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function (e) {
         if (this.readyState === 4) {
-            console.log("Server returned: ", e.target.responseText);
+            var jsonResponse = JSON.parse(xhr.responseText);
+
+            $('#recordingsList').append('<div class="results my-3 p-3 bg-white rounded box-shadow"><h6 class="border-bottom border-gray pb-2 mb-0">Transcription</h6><div class="media text-muted pt-3"><p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"><strong class="d-block text-gray-dark">' + jsonResponse.language + '</strong>' + jsonResponse.transcript + '</p></div><small class="d-block text-right mt-3"><a href="#">View Transcripts</a></small></div>');
         }
     };
     const fd = new FormData();
@@ -193,13 +192,13 @@ const uploadEventHandler = (e, blob, filename) => {
 // Append upload link unto DOM and attach event listener to trigger upload on "click"
 function appendUploadLinkAndAttachEventListener(blob, filename, li) {
     // Append upload link
-    const upload = document.createElement('a');
+    const upload = document.createElement   ('a');
     upload.href = "#";
-    upload.innerHTML = "Upload";
+    upload.className = 'btn btn-lg btn-success';
+    upload.innerHTML = "Ling It!";
 
     // Attach event listener to upload
     upload.addEventListener("click", (e) => uploadEventHandler(e, blob, filename));
-    li.appendChild(document.createTextNode(" "))//add a space in between
     li.appendChild(upload)//add the upload link to li
 
     // Add the li element to the ol
