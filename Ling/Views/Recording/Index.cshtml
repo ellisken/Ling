@@ -7,6 +7,13 @@
 <div>
     <h3>Recordings</h3>
     <ul>
+        @foreach (var rec in Model)
+        {
+            <li>
+                <audio controls="true" src="@rec.">
 
+                </audio>
+            </li>
+        }
     </ul>
 </div>
