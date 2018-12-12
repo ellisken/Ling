@@ -17,16 +17,23 @@ namespace Ling.Data
         //Seed Language data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Recording>().HasData(
-            //    new Recording
-            //    {
-            //        ID = 1,
-            //        LanguageID = 10;
-            //        FileName = "";
-            //        Transcription = "";
-            //    };
-                
-            //)
+            modelBuilder.Entity<Recording>().HasData(
+                new Recording
+                {
+                    ID = 1,
+                    LanguageID = 10,
+                    FileName = "fr-sample.flac",
+                    Transcription = "maître corbeau sur un arbre perché tenait en son bec un fromage"
+                },
+                new Recording
+                {
+                    ID = 2,
+                    LanguageID = 2,
+                    FileName = "those-internets.wav",
+                    Transcription = ""
+                }
+
+            );
 
             modelBuilder.Entity<Language>().HasData(
                 new Language
