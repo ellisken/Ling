@@ -17,17 +17,23 @@ namespace Ling.Data
         //Seed Language data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Recording>().HasData(
-            //    new Recording
-            //    {
-            //        ID = 1,
-            //        LanguageID = 10;
-            //        Audio = ;
-            //        AlternateLanguages = "Portuguese, Spanish";
-            //        Length = 0.0;
-            //    }
-                
-            //);
+            modelBuilder.Entity<Recording>().HasData(
+                new Recording
+                {
+                    ID = 1,
+                    LanguageID = 10,
+                    FileName = "fr-sample.flac",
+                    Transcription = "maître corbeau sur un arbre perché tenait en son bec un fromage"
+                },
+                new Recording
+                {
+                    ID = 2,
+                    LanguageID = 2,
+                    FileName = "those-internets.wav",
+                    Transcription = ""
+                }
+
+            );
 
             modelBuilder.Entity<Language>().HasData(
                 new Language
@@ -36,7 +42,7 @@ namespace Ling.Data
                     EnglishName = "Mandarin",
                     OriginalName = "官话",
                     Romanized = "Guānhuà",
-                    ISOCode = "cmn-Hans-CN"
+                    ISOCode = "cmn-hans-cn"
                 },
 
                 new Language
@@ -45,7 +51,7 @@ namespace Ling.Data
                     EnglishName = "English",
                     OriginalName = "English",
                     Romanized = null,
-                    ISOCode = "en-US"
+                    ISOCode = "en-us"
                 },
 
                 new Language
@@ -54,7 +60,7 @@ namespace Ling.Data
                     EnglishName = "Hindi",
                     OriginalName = "Hindī",
                     Romanized = "हिन्दी ",
-                    ISOCode = "hi-IN"
+                    ISOCode = "hi-in"
                 },
 
                 new Language
@@ -63,7 +69,7 @@ namespace Ling.Data
                     EnglishName = "Spanish (Spain)",
                     OriginalName = "Español (España)",
                     Romanized = "español",
-                    ISOCode = "es-ES"
+                    ISOCode = "es-es"
                 },
 
                 new Language
@@ -72,7 +78,7 @@ namespace Ling.Data
                     EnglishName = "Spanish",
                     OriginalName = "Español",
                     Romanized = "español, castellano",
-                    ISOCode = "es-MX"
+                    ISOCode = "es-mx"
                 },
 
                 new Language
@@ -81,7 +87,7 @@ namespace Ling.Data
                     EnglishName = "Arabic (Egypt)",
                     OriginalName = "العربية",
                     Romanized = "al-ʻarabiyyah",
-                    ISOCode = "ar-EG"
+                    ISOCode = "ar-eg"
                 },
 
                 new Language
@@ -90,7 +96,7 @@ namespace Ling.Data
                     EnglishName = "Portuguese (Brazil)",
                     OriginalName = "Português (Brasil)",
                     Romanized = "português",
-                    ISOCode = "pt-BR"
+                    ISOCode = "pt-br"
                 },
 
                 new Language
@@ -99,7 +105,7 @@ namespace Ling.Data
                     EnglishName = "Russian",
                     OriginalName = "русский язык",
                     Romanized = "russkiy yazyk",
-                    ISOCode = "ru-RU"
+                    ISOCode = "ru-ru"
                 },
 
                 new Language
@@ -108,7 +114,7 @@ namespace Ling.Data
                     EnglishName = "Bengali",
                     OriginalName = "বাংলা",
                     Romanized = "Bangla",
-                    ISOCode = "bn-IN"
+                    ISOCode = "bn-in"
                 },
 
                 new Language
@@ -117,7 +123,7 @@ namespace Ling.Data
                     EnglishName = "French",
                     OriginalName = "français",
                     Romanized = "français",
-                    ISOCode = "fr-FR"
+                    ISOCode = "fr-fr"
                 },
 
                 new Language
@@ -126,7 +132,7 @@ namespace Ling.Data
                     EnglishName = "Japanese",
                     OriginalName = "日本語",
                     Romanized = "Nihongo",
-                    ISOCode = "ja-JP"
+                    ISOCode = "ja-jp"
                 },
 
                 new Language
@@ -135,7 +141,33 @@ namespace Ling.Data
                     EnglishName = "Malay",
                     OriginalName = "بهاس ملايو‎",
                     Romanized = "Bahasa Melayu",
-                    ISOCode = "ms-MY"
+                    ISOCode = "ms-my"
+                }, 
+
+                new Language
+                {
+                    ID = 13,
+                    EnglishName = "Swahili",
+                    OriginalName = "Kiswahili‎",
+                    Romanized = "Kiswahili",
+                    ISOCode = "sw-ke"
+                },
+
+                new Language
+                {
+                    ID = 14,
+                    EnglishName = "German",
+                    OriginalName = "Deutsch‎",
+                    Romanized = "Deutsch",
+                    ISOCode = "de-de"
+                },
+                new Language
+                {
+                    ID = 15,
+                    EnglishName = "Polish",
+                    OriginalName = "‎Polski",
+                    Romanized = "Polski",
+                    ISOCode = "pl-pl"
                 });
 
         }

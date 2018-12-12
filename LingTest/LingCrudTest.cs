@@ -86,8 +86,8 @@ namespace LingTest
         public void CanGetRecording()
         {
             Recording rec = new Recording();
-            rec.AlternateLanguages = "English";
-            Assert.Equal("English", rec.AlternateLanguages);
+            rec.Transcription = "English";
+            Assert.Equal("English", rec.Transcription);
         }
 
 
@@ -98,9 +98,9 @@ namespace LingTest
         public void CanSetRecording()
         {
             Recording rec = new Recording();
-            rec.AlternateLanguages = "English";
-            rec.AlternateLanguages = "Spanish";
-            Assert.Equal("Spanish", rec.AlternateLanguages);
+            rec.Transcription = "English";
+            rec.Transcription = "Spanish";
+            Assert.Equal("Spanish", rec.Transcription);
         }
 
 
@@ -116,31 +116,31 @@ namespace LingTest
             {
                 // Create
                 Recording rec = new Recording();
-                rec.AlternateLanguages = "English";
+                rec.Transcription = "English";
                 rec.ID = 1;
 
                 context.Recordings.Add(rec);
                 context.SaveChanges();
 
                 // Read
-                var myRecording = await context.Recordings.FirstOrDefaultAsync(x => x.AlternateLanguages == rec.AlternateLanguages);
+                var myRecording = await context.Recordings.FirstOrDefaultAsync(x => x.Transcription == rec.Transcription);
 
-                Assert.Equal("English", myRecording.AlternateLanguages);
+                Assert.Equal("English", myRecording.Transcription);
 
                 // Update 
-                myRecording.AlternateLanguages = "Spanish";
+                myRecording.Transcription = "Spanish";
                 context.Update(myRecording);
                 context.SaveChanges();
 
-                var newRecording = await context.Recordings.FirstOrDefaultAsync(l => l.AlternateLanguages == myRecording.AlternateLanguages);
+                var newRecording = await context.Recordings.FirstOrDefaultAsync(l => l.Transcription == myRecording.Transcription);
 
-                Assert.Equal("Spanish", newRecording.AlternateLanguages);
+                Assert.Equal("Spanish", newRecording.Transcription);
 
                 // Delete
                 context.Recordings.Remove(newRecording);
                 context.SaveChanges();
 
-                var deletedRecording = await context.Recordings.FirstOrDefaultAsync(l => l.AlternateLanguages == newRecording.AlternateLanguages);
+                var deletedRecording = await context.Recordings.FirstOrDefaultAsync(l => l.Transcription == newRecording.Transcription);
 
                 Assert.True(deletedRecording == null);
             }
