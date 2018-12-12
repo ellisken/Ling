@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Google.Apis.Auth.OAuth2;
 using Ling.Data;
 using Ling.Models.Interfaces;
 using Ling.Models.Services;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Ling
 {
@@ -20,7 +22,9 @@ namespace Ling
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder().AddEnvironmentVariables();
+            builder.AddUserSecrets<Startup>();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -41,9 +45,14 @@ namespace Ling
             //Add db context
             services.AddDbContext<LingDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:ProductionDB"]));
 
+            string gac = Configuration["GAC"].Replace("\\\"", "\"");
+            // Add Google Credential
+            services.AddTransient(x => GoogleCredential.FromJson(gac));
+
 
             //Add Model Services
             services.AddTransient<ILanguage, LanguageService>();
+            services.AddTransient<IRecording, RecordingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
