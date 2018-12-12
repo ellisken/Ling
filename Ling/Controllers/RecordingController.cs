@@ -66,7 +66,7 @@ namespace Ling.Controllers
             CloudBlobContainer container = await blob.GetContainer("soundrecording");
 
             // Send to blob storage
-            string path = await CreatePath(data);
+            string path = await CreatePathAsync(data);
             await blob.UploadFile(container, data.FileName, path);
 
             // Get Uri back from blob storage
@@ -106,13 +106,15 @@ namespace Ling.Controllers
         /// </summary>
         /// <param name="data">Audio blob sent over from FormData</param>
         /// <returns>A temporary file path</returns>
-        private async Task<string> CreatePath(IFormFile data)
+        private async Task<string> CreatePathAsync(IFormFile data)
         {
             string filepath = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString();
+
             using (var stream = new FileStream(filepath, FileMode.Create))
             {
                 await data.CopyToAsync(stream);
             }
+
             return filepath;
         }
 
