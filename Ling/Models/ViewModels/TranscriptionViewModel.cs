@@ -21,5 +21,7 @@ namespace Ling.Models.ViewModels
         /// The confidence.
         /// </value>
         public float Confidence { get; set; }
+
+        public string Language { get; set; }
     }
 }
