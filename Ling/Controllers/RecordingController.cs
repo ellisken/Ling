@@ -81,8 +81,15 @@ namespace Ling.Controllers
             if(result.Language != null)
             {
                 Language language = await _languages.GetLanguage(result.Language.ToLower());
-                recording.Language = language;
-                result.Language = language.EnglishName;
+                if (language != null) {
+                    recording.Language = language;
+                    result.Language = language.EnglishName;
+                }
+                else
+                {
+                    result.Language = result.Language;
+                }
+
             }
 
             //Create Recording entry in app's DB
