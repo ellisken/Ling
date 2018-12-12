@@ -25,7 +25,7 @@ namespace Ling.Controllers
 
         private Dictionary<string, List<string>> Languages = new Dictionary<string, List<string>>()
         {
-            ["Asia"] = new List<string> { "cmn", "ms-my", "jp-jp"},
+            ["Asia"] = new List<string> {"cmn-hans-cn", "ms-my", "ja-jp"},
             ["South Asia"] = new List<string> { "hi-in", "bn-in", "ar-eg"},
             ["Africa"] = new List<string> { "ar-eg", "sw-ke"},
             ["Western Europe"] = new List<string> { "en-us", "de-de", "fr-fr", "es-es"},
