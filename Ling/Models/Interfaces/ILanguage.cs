@@ -13,6 +13,7 @@ namespace Ling.Models.Interfaces
         //Read
         Task<List<Language>> GetLanguages();
         Task<Language> GetLanguage(int id);
+        Task<Language> GetLanguage(string isoCode);
 
         //Update
         Task UpdateLanguage(Language language);

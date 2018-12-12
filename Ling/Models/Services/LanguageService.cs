@@ -73,5 +73,15 @@ namespace Ling.Models.Services
             _context.Languages.Remove(language);
             await _context.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// Gets the language.
+        /// </summary>
+        /// <param name="isoCode">The iso code.</param>
+        /// <returns></returns>
+        public async Task<Language> GetLanguage(string isoCode)
+        {
+            return await _context.Languages.FirstOrDefaultAsync(lang => lang.ISOCode == isoCode);
+        }
     }
 }
