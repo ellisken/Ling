@@ -1,5 +1,5 @@
 ﻿using Google.Apis.Auth.OAuth2;
-using Google.Cloud.Speech.V1;
+using Google.Cloud.Speech.V1P1Beta1;
 using Grpc.Core;
 using Ling.Data;
 using Ling.Models.Interfaces;
@@ -8,9 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grpc.Auth;
-using static Google.Cloud.Speech.V1.RecognitionConfig.Types;
-using Google.Api.Gax.Grpc;
-using Google.Cloud.Translation.V2;
+using static Google.Cloud.Speech.V1P1Beta1.RecognitionConfig.Types;
 
 namespace Ling.Models.Services
 {
@@ -19,6 +17,11 @@ namespace Ling.Models.Services
         public LingDbContext _context { get; set; }
         private readonly GoogleCredential _googleCredential;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecordingService"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="googleCredential">The google credential.</param>
         public RecordingService(LingDbContext context, GoogleCredential googleCredential)
         {
             _context = context;
@@ -85,21 +88,28 @@ namespace Ling.Models.Services
         /// <param name="url">The URL.</param>
         /// <param name="languageCode">The language code.</param>
         /// <returns></returns>
-        public async Task<TranscriptionViewModel> Transcribe(string url, string languageCode = "en-US")
+        public async Task<TranscriptionViewModel> Transcribe(string url, string languageCode = "en-US", string[] alternativeLanguages = null)
         {
          
             // Initialize GA Speech Client
             Channel channel = new Channel(
             SpeechClient.DefaultEndpoint.Host, _googleCredential.ToChannelCredentials());
             SpeechClient speech =  SpeechClient.Create(channel);
-            TranslationClient client = TranslationClient.Create(_googleCredential);
 
             RecognitionAudio audio = await RecognitionAudio.FetchFromUriAsync(url);
             RecognitionConfig config = new RecognitionConfig
             {
                 Encoding = AudioEncoding.Linear16,
-                LanguageCode = languageCode
+                LanguageCode = languageCode,
             };
+
+            if (alternativeLanguages != null)
+            {
+                foreach (string altLang in alternativeLanguages)
+                {
+                    config.AlternativeLanguageCodes.Add(altLang);
+                }
+            }
 
             RecognizeResponse response = speech.Recognize(config, audio);
 
@@ -117,14 +127,11 @@ namespace Ling.Models.Services
                         transcript = alternative.Transcript;
                         confidence = alternative.Confidence;
                     }
+
                 }
+                language = res.LanguageCode;
             }
-            // If we have a transcript, attempt to identify the language
-            if (confidence > 0)
-            {
-                Detection detection = await client.DetectLanguageAsync(text: transcript);
-                language = detection.Language;
-            }
+ 
             await channel.ShutdownAsync();
             return new TranscriptionViewModel() { Transcript = transcript, Confidence = confidence, Language = language };
         }

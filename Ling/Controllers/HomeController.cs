@@ -6,20 +6,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ling.Models;
 using Microsoft.Extensions.Configuration;
+using Ling.Models.Interfaces;
 
 namespace Ling.Controllers
 {
     public class HomeController : Controller
     {
         IConfiguration _configuration;
+        IRecording _recording;
 
-        public HomeController(IConfiguration configuration)
+        public HomeController(IConfiguration configuration, IRecording recording)
         {
             _configuration = configuration;
+            _recording = recording;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            string [] alts = new string[] { "pt-BR", "ru-RU", "cmn-Hant-TW" };
+
+            var results = await _recording.Transcribe("http://www.signalogic.com/melp/EngSamples/eng_m1.wav", "en-US", alts);
+
             return View();
         }
 
