@@ -101,6 +101,11 @@ namespace Ling.Controllers
             return result;
         }
 
+        /// <summary>
+        /// This action creates a temporary file path where the wav blob will live. This is necessary in order to upload it to Blob storage.
+        /// </summary>
+        /// <param name="data">Audio blob sent over from FormData</param>
+        /// <returns>A temporary file path</returns>
         public async Task<string> CreatePath(IFormFile data)
         {
             string filepath = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString();
