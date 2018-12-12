@@ -19,6 +19,7 @@ let audioContext;
 // Grab DOM elements
 const $recordButton = $('#recordButton');
 const stopButton = document.getElementById("stopButton");
+const recordingsList = document.getElementById("recordingsList");
 
 // Attach event listeners
 recordButton.addEventListener("click", recordButtonHandler);
@@ -174,67 +175,34 @@ function createDownloadLink(blob) {
     //add the save to disk link to li
     li.appendChild(link);
 
-    //upload link
+    // Call function that appends link to upload to server
+    appendUploadLinkAndAttachEventListener(blob, filename);
+}
+
+const uploadEventHandler = (event, blob, filename) => {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function (e) {
+        if (this.readyState === 4) {
+            console.log("Server returned: ", e.target.responseText);
+        }
+    };
+    var fd = new FormData();
+    fd.append("audio_data", blob, filename);
+    xhr.open("POST", "/Recording/Create", true);
+    xhr.send(fd);
+}
+
+function appendUploadLinkAndAttachEventListener(blob, filename) {
+    // Append upload link
     var upload = document.createElement('a');
     upload.href = "#";
     upload.innerHTML = "Upload";
-    upload.addEventListener("click", function (event) {
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function (e) {
-            if (this.readyState === 4) {
-                console.log("Server returned: ", e.target.responseText);
-            }
-        };
-        var fd = new FormData();
-        fd.append("audio_data", blob, filename);
-        xhr.open("POST", "/Recording/Create", true);
-        xhr.send(fd);
-    })
+
+    // Attach event listener to upload
+    upload.addEventListener("click", () => uploadEventHandler(blob, filename));
     li.appendChild(document.createTextNode(" "))//add a space in between
     li.appendChild(upload)//add the upload link to li
 
-    //add the li element to the ol
+    // Add the li element to the ol
     recordingsList.appendChild(li);
-
-    //uploadToServer(url, filename);
-}
-
-function createDownloadLinkCondensed(blob) {
-
-    var url = URL.createObjectURL(blob);
-    var au = document.createElement('audio');
-    var li = document.createElement('li');
-    var link = document.createElement('a');
-
-    //add controls to the <audio> element
-    au.controls = true;
-    au.src = url;
-
-    //link the a element to the blob
-    link.href = url;
-    link.download = new Date().toISOString() + '.wav';
-    link.innerHTML = link.download;
-
-    //add the new audio and a elements to the li element
-    li.appendChild(au);
-    li.appendChild(link);
-
-    //add the li element to the ordered list
-    recordingsList.appendChild(li);
-}
-
-// Make an AJAX POST request to create a new Recording object in the database
-function uploadToServer(blobUrl, filename) {
-
-
-    $.ajax({
-        url: '/Recording/Create',
-        method: 'POST',
-        data: {
-            blobUrl: blobUrl,
-            filename: filename
-        }
-    }).then((resp, status, xhr) => {
-        console.log("recording posts");
-    });
 }
