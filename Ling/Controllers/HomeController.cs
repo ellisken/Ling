@@ -21,11 +21,10 @@ namespace Ling.Controllers
             _recording = recording;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            string [] alts = new string[] { "pt-BR", "ru-RU", "cmn-Hant-TW" };
-
-            var results = await _recording.Transcribe("http://www.signalogic.com/melp/EngSamples/eng_m1.wav", "en-US", alts);
+            //string [] alts = new string[] { "pt-BR", "ru-RU", "cmn-Hant-TW" };
+            //var results = await _recording.Transcribe("http://www.signalogic.com/melp/EngSamples/eng_m1.wav", "en-US", alts);
 
             return View();
         }
