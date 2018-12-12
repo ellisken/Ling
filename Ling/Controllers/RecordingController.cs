@@ -25,10 +25,10 @@ namespace Ling.Controllers
 
         private Dictionary<string, List<string>> Languages = new Dictionary<string, List<string>>()
         {
-            ["Asia"] = new List<string> { "cmn-hans-cn", "ms-my", "jp-jp"},
+            ["Asia"] = new List<string> { "cmn", "ms-my", "jp-jp"},
             ["South Asia"] = new List<string> { "hi-in", "bn-in", "ar-eg"},
             ["Africa"] = new List<string> { "ar-eg", "sw-ke"},
-            ["Western Europe"] = new List<string> { "de-de", "fr-fr", "es-es"},
+            ["Western Europe"] = new List<string> { "en-us", "de-de", "fr-fr", "es-es"},
             ["Eastern Europe"] = new List<string> { "ru-ru", "pl-pl"},
             ["South/Latin America"] = new List<string> { "es-mx", "pt-br"}
         };
@@ -55,6 +55,7 @@ namespace Ling.Controllers
 
         {
             var data = HttpContext.Request.Form.Files[0];
+            var langRegion = HttpContext.Request.Form["language_region"];
             Blob blob = new Blob(_configuration["BlobStorageAccountName"], _configuration["BlobStorageKey"], _configuration);
             CloudBlobContainer container = await blob.GetContainer("soundrecording");
 
@@ -65,10 +66,11 @@ namespace Ling.Controllers
 
             //Get Uri back from blob storage
             var newBlobURI = blob.GetBlob(data.FileName, container).Uri.AbsoluteUri;
-            string[] alts = new string[] { "pt-BR", "ru-RU", "cmn-Hant-TW" };
-            var result = await _recordings.Transcribe(newBlobURI, "en-US", alts);
+            string defaultLang = Languages[langRegion].First();
+            List<string> alts = Languages[langRegion].GetRange(1, Languages[langRegion].Count - 1);
+            var result = await _recordings.Transcribe(newBlobURI, defaultLang, alts);
 
-
+            //TODO: add language result to recording before saving
             Recording recording = new Recording()
             {
                 FileName = data.FileName,

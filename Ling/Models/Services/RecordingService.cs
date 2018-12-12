@@ -93,7 +93,7 @@ namespace Ling.Models.Services
         /// <param name="url">The URL.</param>
         /// <param name="languageCode">The language code.</param>
         /// <returns></returns>
-        public async Task<TranscriptionViewModel> Transcribe(string url, string languageCode = "en-US", string[] alternativeLanguages = null)
+        public async Task<TranscriptionViewModel> Transcribe(string url, string languageCode = "en-US", List<string> altLanguages = null)
         {
          
             // Initialize GA Speech Client
@@ -108,9 +108,9 @@ namespace Ling.Models.Services
                 LanguageCode = languageCode,
             };
 
-            if (alternativeLanguages != null)
+            if (altLanguages != null)
             {
-                foreach (string altLang in alternativeLanguages)
+                foreach (string altLang in altLanguages)
                 {
                     config.AlternativeLanguageCodes.Add(altLang);
                 }

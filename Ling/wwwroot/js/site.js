@@ -207,5 +207,5 @@ function appendUploadLinkAndAttachEventListener(blob, filename, li) {
 
     // Add the li element to the ol
     recordingsList.appendChild(li);
-    $('#selectLanguageRegion').show();
+    //$('#selectLanguageRegion').show();
 }
