@@ -21,7 +21,7 @@ namespace Ling.Data
                 new Recording
                 {
                     ID = 1,
-                    LanguageID = 10,
+                    LanguageID = 11,
                     FileName = "fr-sample.flac",
                     URI = "https://lingblob.blob.core.windows.net/soundrecording/fr-sample.flac",
                     Transcription = "maître corbeau sur un arbre perché tenait en son bec un fromage"

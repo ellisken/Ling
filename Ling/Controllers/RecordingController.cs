@@ -37,7 +37,7 @@ namespace Ling.Controllers
         }
 
         [HttpPost]
-        public async Task Create()
+        public async Task<IActionResult> Create()
         {
             var data = HttpContext.Request.Form.Files[0];
             Blob blob = new Blob(_configuration["BlobStorageAccountName"], _configuration["BlobStorageKey"], _configuration);
@@ -60,7 +60,7 @@ namespace Ling.Controllers
             //Create Recording entry in app's DB
             await _recordings.AddRecording(recording);
 
-            return;
+            return Ok();
         }
 
         public async Task<string> CreatePath(IFormFile data)
