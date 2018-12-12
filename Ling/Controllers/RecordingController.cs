@@ -49,7 +49,7 @@ namespace Ling.Controllers
 
 
             //Get Uri back from blob storage
-            var newBlobURI = blob.GetBlob(data.FileName, container).StorageUri.PrimaryUri.ToString();
+            var newBlobURI = blob.GetBlob(data.FileName, container).Uri.AbsoluteUri;
 
             Recording recording = new Recording()
             {
