@@ -17,7 +17,7 @@ let AudioContext = window.AudioContext || webkit.AudioContext;
 let audioContext;
 
 // Grab DOM elements
-const recordButton = document.getElementById("recordButton");
+const $recordButton = $('#recordButton');
 const stopButton = document.getElementById("stopButton");
 
 // Attach event listeners
@@ -29,7 +29,7 @@ stopButton.addEventListener("click", stopRecording);
 
 // Pause, Resume, or Record based on classes on recordButton
 function recordButtonHandler() {
-    if ($(recordButton).hasClass("inProgress")) {
+    if ($recordButton.hasClass("inProgress")) {
         pauseOrResumeRecording();
     } else {
         startRecording();
@@ -37,6 +37,9 @@ function recordButtonHandler() {
 }
 
 function startRecording() {
+    // If there is a recording in the recordingsList, remove it. This way we keep only one recording in the list at a time.
+    $('#recordingsList').empty();
+
     /*
       getUserMedia() is a promise-based method that prompts the user for permission to use a media input, which produces a MediaStream object with a specified list of a/v tracks. In our case, the stream wil have an audio track.
         https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
@@ -46,7 +49,7 @@ function startRecording() {
     const constraints = { audio: true, video: false };
 
     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-        $(recordButton).addClass("inProgress");
+        $recordButton.addClass("inProgress");
         toggleEnabledOnRecordButton();
         stopButton.disabled = false;
 
@@ -67,8 +70,14 @@ function startRecording() {
 
         // Begin recording
         rec.record();
+
+        // Stop recording after 30 sec
+        setTimeout(() => {
+            stopRecording();
+        }, 31000);
+
         // Set "Record" button text to "Pause"
-        recordButton.innerHTML = "Pause";
+        $recordButton.html("Pause");
 
         console.log("recording has started");
     }).catch((err) => {
@@ -79,10 +88,10 @@ function startRecording() {
 
 // TODO: When styling, the "enabled" class can have an active style... maybe pause icon versus play icon
 function toggleEnabledOnRecordButton() {
-    if ($(recordButton).hasClass("enabled")) {
-        $(recordButton).removeClass("enabled");
+    if ($recordButton.hasClass("enabled")) {
+        $recordButton.removeClass("enabled");
     } else {
-        $(recordButton).addClass("enabled");
+        $recordButton.addClass("enabled");
     }
 }
 
@@ -90,20 +99,23 @@ function toggleEnabledOnRecordButton() {
 function pauseOrResumeRecording() {
     // Make sure user can stop the recording at any time
     stopButton.disabled = false;
+    const maxAudioClipLength = rec.context.currentTime < 200000;
 
-    if (rec.recording) {
+    if (rec.recording && maxAudioClipLength) {
         console.log("pause hit on rec.recording =", rec.recording);
         // Pause
         rec.stop();
         // Change UI text of "Pause" button to "Resume"
-        recordButton.innerHTML = "Resume";
+        $recordButton.html("Resume");
         toggleEnabledOnRecordButton();
-    } else {
+    } else if (maxAudioClipLength) {
         console.log("resume hit on rec.recording =", rec.recording);
         // Resume
         rec.record();
-        recordButton.innerHTML = "Pause";
+        $recordButton.html("Pause");
         toggleEnabledOnRecordButton();
+    } else {
+        stopRecording();
     }
 }
 
@@ -115,10 +127,10 @@ function stopRecording() {
     stopButton.disabled = true;
 
     // Reset "Record" button text when recording is stopped
-    recordButton.innerHTML = "Record";
+    $recordButton.html("Record");
 
     // Remove "inProgress" class to show recording is stopped
-    $(recordButton).removeClass("inProgress");
+    $recordButton.removeClass("inProgress");
 
     // Get Recorder object to stop recording
     rec.stop();
@@ -126,7 +138,7 @@ function stopRecording() {
     // Stop microphone access
     getUserMediaStream.getAudioTracks()[0].stop();
 
-    // Create WAV blob and pass on to uploadToServer
+    // Create WAV blob and pass on to createDownloadLink
     rec.exportWAV(createDownloadLink);
 }
 
@@ -175,7 +187,7 @@ function createDownloadLink(blob) {
         };
         var fd = new FormData();
         fd.append("audio_data", blob, filename);
-        xhr.open("POST", "upload.php", true);
+        xhr.open("POST", "/Recording/Create", true);
         xhr.send(fd);
     })
     li.appendChild(document.createTextNode(" "))//add a space in between
@@ -183,9 +195,46 @@ function createDownloadLink(blob) {
 
     //add the li element to the ol
     recordingsList.appendChild(li);
+
+    //uploadToServer(url, filename);
+}
+
+function createDownloadLinkCondensed(blob) {
+
+    var url = URL.createObjectURL(blob);
+    var au = document.createElement('audio');
+    var li = document.createElement('li');
+    var link = document.createElement('a');
+
+    //add controls to the <audio> element
+    au.controls = true;
+    au.src = url;
+
+    //link the a element to the blob
+    link.href = url;
+    link.download = new Date().toISOString() + '.wav';
+    link.innerHTML = link.download;
+
+    //add the new audio and a elements to the li element
+    li.appendChild(au);
+    li.appendChild(link);
+
+    //add the li element to the ordered list
+    recordingsList.appendChild(li);
 }
 
 // Make an AJAX POST request to create a new Recording object in the database
-function uploadToServer(blob) {
+function uploadToServer(blobUrl, filename) {
 
+
+    $.ajax({
+        url: '/Recording/Create',
+        method: 'POST',
+        data: {
+            blobUrl: blobUrl,
+            filename: filename
+        }
+    }).then((resp, status, xhr) => {
+        console.log("recording posts");
+    });
 }

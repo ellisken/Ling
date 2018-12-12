@@ -7,7 +7,7 @@ namespace Ling.Models
     {
         public int ID { get; set; }
         public int LanguageID { get; set; }
-        public byte Audio { get; set; }
+        public string FileName { get; set; }
         public string AlternateLanguages { get; set; }
         public decimal Length { get; set; }
 
