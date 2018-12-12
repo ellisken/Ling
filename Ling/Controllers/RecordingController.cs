@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Ling.Models;
+using Ling.Models.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,20 +19,21 @@ namespace Ling.Controllers
     public class RecordingController : Controller
     {
         IConfiguration _configuration;
-        IHostingEnvironment _environment;
+        IRecording _recordings;
 
-        public RecordingController(IConfiguration configuration, IHostingEnvironment env)
+        public RecordingController(IConfiguration configuration, IRecording recordings)
         {
             _configuration = configuration;
-            _environment = env;
+            _recordings = recordings;
         }
+
         /// <summary>
         /// Displays all saved recordings
         /// </summary>
         /// <returns></returns>
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _recordings.GetRecordings());
         }
 
         [HttpPost]
@@ -42,23 +44,27 @@ namespace Ling.Controllers
             CloudBlobContainer container = await blob.GetContainer("soundrecording");
 
             //Send to blob storage
-            //string envPath = $"{_environment.WebRootPath}\\images\\banner1.svg";
             string path = await CreatePath(data);
             blob.UploadFile(container, data.FileName, path);
 
+
             //Get Uri back from blob storage
+            var newBlobURI = blob.GetBlob(data.FileName, container).Uri.AbsoluteUri;
+
+            Recording recording = new Recording()
+            {
+                FileName = data.FileName,
+                URI = newBlobURI,
+            };
 
             //Create Recording entry in app's DB
+            await _recordings.AddRecording(recording);
+
             return;
         }
-    //TODO: 
-    //Action that receives a clip?
-    //Action that sends a clip to API, gets results, saves clip to DB, and displays results to user
-    //etc.
 
         public async Task<string> CreatePath(IFormFile data)
         {
-            //var filepath = Path.GetTempFileName();
             string filepath = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString();
             using (var stream = new FileStream(filepath, FileMode.Create))
             {

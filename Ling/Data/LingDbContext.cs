@@ -39,6 +39,14 @@ namespace Ling.Data
                 new Language
                 {
                     ID = 1,
+                    EnglishName = "No Language Set",
+                    OriginalName = "",
+                    Romanized = "",
+                    ISOCode = ""
+                },
+                new Language
+                {
+                    ID = 2,
                     EnglishName = "Mandarin",
                     OriginalName = "官话",
                     Romanized = "Guānhuà",
@@ -47,7 +55,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 2,
+                    ID = 3,
                     EnglishName = "English",
                     OriginalName = "English",
                     Romanized = null,
@@ -56,7 +64,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 3,
+                    ID = 4,
                     EnglishName = "Hindi",
                     OriginalName = "Hindī",
                     Romanized = "हिन्दी ",
@@ -65,7 +73,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 4,
+                    ID = 5,
                     EnglishName = "Spanish (Spain)",
                     OriginalName = "Español (España)",
                     Romanized = "español",
@@ -74,7 +82,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 5,
+                    ID = 6,
                     EnglishName = "Spanish",
                     OriginalName = "Español",
                     Romanized = "español, castellano",
@@ -83,7 +91,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 6,
+                    ID = 7,
                     EnglishName = "Arabic (Egypt)",
                     OriginalName = "العربية",
                     Romanized = "al-ʻarabiyyah",
@@ -92,7 +100,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 7,
+                    ID = 8,
                     EnglishName = "Portuguese (Brazil)",
                     OriginalName = "Português (Brasil)",
                     Romanized = "português",
@@ -101,7 +109,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 8,
+                    ID = 9,
                     EnglishName = "Russian",
                     OriginalName = "русский язык",
                     Romanized = "russkiy yazyk",
@@ -110,7 +118,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 9,
+                    ID = 10,
                     EnglishName = "Bengali",
                     OriginalName = "বাংলা",
                     Romanized = "Bangla",
@@ -119,7 +127,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 10,
+                    ID = 11,
                     EnglishName = "French",
                     OriginalName = "français",
                     Romanized = "français",
@@ -128,7 +136,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 11,
+                    ID = 12,
                     EnglishName = "Japanese",
                     OriginalName = "日本語",
                     Romanized = "Nihongo",
@@ -137,7 +145,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 12,
+                    ID = 13,
                     EnglishName = "Malay",
                     OriginalName = "بهاس ملايو‎",
                     Romanized = "Bahasa Melayu",
@@ -146,7 +154,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 13,
+                    ID = 14,
                     EnglishName = "Swahili",
                     OriginalName = "Kiswahili‎",
                     Romanized = "Kiswahili",
@@ -155,7 +163,7 @@ namespace Ling.Data
 
                 new Language
                 {
-                    ID = 14,
+                    ID = 15,
                     EnglishName = "German",
                     OriginalName = "Deutsch‎",
                     Romanized = "Deutsch",
@@ -163,7 +171,7 @@ namespace Ling.Data
                 },
                 new Language
                 {
-                    ID = 15,
+                    ID = 16,
                     EnglishName = "Polish",
                     OriginalName = "‎Polski",
                     Romanized = "Polski",
