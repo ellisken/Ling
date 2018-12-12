@@ -106,7 +106,7 @@ namespace Ling.Controllers
         /// </summary>
         /// <param name="data">Audio blob sent over from FormData</param>
         /// <returns>A temporary file path</returns>
-        public async Task<string> CreatePath(IFormFile data)
+        private async Task<string> CreatePath(IFormFile data)
         {
             string filepath = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString();
             using (var stream = new FileStream(filepath, FileMode.Create))
