@@ -55,7 +55,12 @@ namespace Ling.Models.Services
         /// <returns>All Recordings in db</returns>
         public async Task<IEnumerable<Recording>> GetRecordings()
         {
-            return await _context.Recordings.ToListAsync();
+            IEnumerable<Recording> recordings = await _context.Recordings.ToListAsync();
+            foreach(Recording r in recordings)
+            {
+                r.Language = await _context.Languages.FirstOrDefaultAsync(l => l.ID == r.LanguageID);
+            }
+            return recordings;
         }
 
         /// <summary>
