@@ -1,5 +1,5 @@
 ﻿using Google.Apis.Auth.OAuth2;
-using Google.Cloud.Speech.V1;
+using Google.Cloud.Speech.V1P1Beta1;
 using Grpc.Core;
 using Ling.Data;
 using Ling.Models.Interfaces;
@@ -8,9 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grpc.Auth;
-using static Google.Cloud.Speech.V1.RecognitionConfig.Types;
-using Google.Api.Gax.Grpc;
-using Microsoft.Extensions.Configuration;
+using static Google.Cloud.Speech.V1P1Beta1.RecognitionConfig.Types;
 
 namespace Ling.Models.Services
 {
@@ -18,13 +16,16 @@ namespace Ling.Models.Services
     {
         public LingDbContext _context { get; set; }
         private readonly GoogleCredential _googleCredential;
-        IConfiguration _configuration;
 
-        public RecordingService(IConfiguration configuration, LingDbContext context, GoogleCredential googleCredential)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecordingService"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="googleCredential">The google credential.</param>
+        public RecordingService(LingDbContext context, GoogleCredential googleCredential)
         {
             _context = context;
             _googleCredential = googleCredential;
-            _configuration = configuration;
         }
 
         /// <summary>
@@ -51,15 +52,10 @@ namespace Ling.Models.Services
         /// <summary>
         /// Read
         /// </summary>
-        /// <returns>A list of all recording objects that have a language attribute</returns>
+        /// <returns>All Recordings in db</returns>
         public async Task<IEnumerable<Recording>> GetRecordings()
         {
-            IEnumerable<Recording> recordings = await _context.Recordings.ToListAsync();
-            foreach(Recording r in recordings)
-            {
-                r.Language = await _context.Languages.FirstOrDefaultAsync(l => l.ID == r.LanguageID);
-            }
-            return recordings;
+            return await _context.Recordings.ToListAsync();
         }
 
         /// <summary>
@@ -92,24 +88,34 @@ namespace Ling.Models.Services
         /// <param name="url">The URL.</param>
         /// <param name="languageCode">The language code.</param>
         /// <returns></returns>
-        public async Task<TranscriptionViewModel> Transcribe(string url, string languageCode = "en-US")
+        public async Task<TranscriptionViewModel> Transcribe(string url, string languageCode = "en-US", string[] alternativeLanguages = null)
         {
          
             // Initialize GA Speech Client
             Channel channel = new Channel(
             SpeechClient.DefaultEndpoint.Host, _googleCredential.ToChannelCredentials());
             SpeechClient speech =  SpeechClient.Create(channel);
+
             RecognitionAudio audio = await RecognitionAudio.FetchFromUriAsync(url);
             RecognitionConfig config = new RecognitionConfig
             {
                 Encoding = AudioEncoding.Linear16,
-                LanguageCode = languageCode
+                LanguageCode = languageCode,
             };
+
+            if (alternativeLanguages != null)
+            {
+                foreach (string altLang in alternativeLanguages)
+                {
+                    config.AlternativeLanguageCodes.Add(altLang);
+                }
+            }
 
             RecognizeResponse response = speech.Recognize(config, audio);
 
             string transcript = "";
             float confidence = 0f;
+            string language = "";
             // Parse results
             foreach (var res in response.Results)
             {
@@ -121,10 +127,13 @@ namespace Ling.Models.Services
                         transcript = alternative.Transcript;
                         confidence = alternative.Confidence;
                     }
+
                 }
+                language = res.LanguageCode;
             }
+ 
             await channel.ShutdownAsync();
-            return new TranscriptionViewModel() { Transcript = transcript, Confidence = confidence };
+            return new TranscriptionViewModel() { Transcript = transcript, Confidence = confidence, Language = language };
         }
     }
 }
