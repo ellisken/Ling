@@ -74,9 +74,11 @@ function startRecording() {
 
         // Stop recording after 30 sec
         setTimeout(() => {
-            rec.stop();
-            // Append audio html element
-            rec.exportWAV(appendAudioElement)
+            if ($recordButton.hasClass("inProgress")) {
+                rec.stop();
+                // Append audio html element
+                rec.exportWAV(appendAudioElement)
+            }
         }, 31000);
 
         // Set "Record" button text to "Pause"
