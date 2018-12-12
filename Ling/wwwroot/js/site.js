@@ -75,7 +75,7 @@ function startRecording() {
         // Stop recording after 30 sec
         setTimeout(() => {
             rec.stop();
-            // append audio html element
+            // Append audio html element
             rec.exportWAV(appendAudioElement)
         }, 31000);
 
@@ -119,7 +119,7 @@ function pauseOrResumeRecording() {
     }
 }
 
-// "Stop" a recording
+// "Stop" button event handler
 function stopRecording() {
     console.log("Stop button clicked");
 
@@ -146,7 +146,7 @@ function stopRecording() {
 }
 
 
-/* Functions to call after audio has been recorded */
+/* Functions called after audio has been stopped/recorded */
 
 // Cited from Recorder.js tutorial. May be tweaked to our app if necessary.
 function appendAudioElement(blob) {
@@ -176,7 +176,7 @@ function appendAudioElement(blob) {
     }
 }
 
-const uploadEventHandler = (blob, filename) => {
+const uploadEventHandler = (e, blob, filename) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function (e) {
         if (this.readyState === 4) {
@@ -196,7 +196,7 @@ function appendUploadLinkAndAttachEventListener(blob, filename, li) {
     upload.innerHTML = "Upload";
 
     // Attach event listener to upload
-    upload.addEventListener("click", () => uploadEventHandler(blob, filename));
+    upload.addEventListener("click", (e) => uploadEventHandler(e, blob, filename));
     li.appendChild(document.createTextNode(" "))//add a space in between
     li.appendChild(upload)//add the upload link to li
 
