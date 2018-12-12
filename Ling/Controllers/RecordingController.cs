@@ -42,6 +42,7 @@ namespace Ling.Controllers
 
         [HttpPost]
         public async Task<TranscriptionViewModel> Create()
+
         {
             var data = HttpContext.Request.Form.Files[0];
             Blob blob = new Blob(_configuration["BlobStorageAccountName"], _configuration["BlobStorageKey"], _configuration);
@@ -75,8 +76,8 @@ namespace Ling.Controllers
             //Create Recording entry in app's DB
             await _recordings.AddRecording(recording);
         
-
             return result;
+
         }
 
         public async Task<string> CreatePath(IFormFile data)

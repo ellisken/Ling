@@ -3,14 +3,16 @@ using Ling.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ling.Migrations
 {
     [DbContext(typeof(LingDbContext))]
-    partial class LingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181212201638_addSentinelLangProd")]
+    partial class addSentinelLangProd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,8 +79,8 @@ namespace Ling.Migrations
                     b.ToTable("Recordings");
 
                     b.HasData(
-                        new { ID = 1, FileName = "fr-sample.flac", LanguageID = 11, Transcription = "maître corbeau sur un arbre perché tenait en son bec un fromage", URI = "https://lingblob.blob.core.windows.net/soundrecording/fr-sample.flac" },
-                        new { ID = 2, FileName = "those-internets.wav", LanguageID = 3, Transcription = "", URI = "https://lingblob.blob.core.windows.net/soundrecording/those-internets.wav" }
+                        new { ID = 1, FileName = "fr-sample.flac", LanguageID = 10, Transcription = "maître corbeau sur un arbre perché tenait en son bec un fromage" },
+                        new { ID = 2, FileName = "those-internets.wav", LanguageID = 2, Transcription = "" }
                     );
                 });
 

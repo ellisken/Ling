@@ -7,6 +7,12 @@
 <div>
     <h3>Recordings</h3>
     <ul>
-
+        @foreach (var rec in Model)
+        {
+            <li>
+                <h4>@rec.Language.EnglishName</h4>
+                <audio controls src="@rec.URI"></audio>
+            </li>
+        }
     </ul>
 </div>
