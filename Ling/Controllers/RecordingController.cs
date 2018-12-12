@@ -23,20 +23,14 @@ namespace Ling.Controllers
         IRecording _recordings;
         ILanguage _languages;
 
-        private List<string>[] Languages =
+        private Dictionary<string, List<string>> Languages = new Dictionary<string, List<string>>()
         {
-            //Asia
-            new List<string> { "cmn-hans-cn", "ms-my", "jp-jp"},
-            //South Asia
-            new List<string> { "hi-in", "bn-in", "ar-eg"},
-            //Africa
-            new List<string> { "ar-eg", "sw-ke"},
-            //Western Europe
-            new List<string> { "de-de", "fr-fr", "es-es"},
-            //Eastern Europe
-            new List<string> { "ru-ru", "pl-pl"},
-            //South/Latin America
-            new List<string> { "es-mx", "pt-br"}
+            ["Asia"] = new List<string> { "cmn-hans-cn", "ms-my", "jp-jp"},
+            ["South Asia"] = new List<string> { "hi-in", "bn-in", "ar-eg"},
+            ["Africa"] = new List<string> { "ar-eg", "sw-ke"},
+            ["Western Europe"] = new List<string> { "de-de", "fr-fr", "es-es"},
+            ["Eastern Europe"] = new List<string> { "ru-ru", "pl-pl"},
+            ["South/Latin America"] = new List<string> { "es-mx", "pt-br"}
         };
 
 
