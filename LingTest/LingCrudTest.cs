@@ -37,17 +37,46 @@ namespace LingTest
         }
 
 
+        /// <summary>
+        /// Can Create a Language in the database
+        /// </summary>
         [Fact]
-        public async void LanguageCRUDTest()
+        public async void CanCreateLangCRUDTest()
         {
             DbContextOptions<LingDbContext> options =
                 new DbContextOptionsBuilder<LingDbContext>()
-                .UseInMemoryDatabase("LingDBContex")
+                .UseInMemoryDatabase("LingCreateDBContex")
                 .Options;
 
             using (LingDbContext context = new LingDbContext(options))
             {
                 // Create
+                Language lang = new Language();
+                lang.EnglishName = "Dutch";
+                lang.ISOCode = "uk-EUR";
+
+                context.Languages.Add(lang);
+                context.SaveChanges();
+
+                var createdLang = await context.Languages.FirstOrDefaultAsync(x => x.EnglishName == lang.EnglishName);
+                Assert.Equal("Dutch", createdLang.EnglishName);
+            }
+        }
+
+
+        /// <summary>
+        /// Can read a Language in the database
+        /// </summary>
+        [Fact]
+        public async void CanReadLangCRUDTest()
+        {
+            DbContextOptions<LingDbContext> options =
+                new DbContextOptionsBuilder<LingDbContext>()
+                .UseInMemoryDatabase("LingReadDBContex")
+                .Options;
+
+            using (LingDbContext context = new LingDbContext(options))
+            {
                 Language lang = new Language();
                 lang.EnglishName = "English";
                 lang.ISOCode = "en-US";
@@ -55,29 +84,67 @@ namespace LingTest
                 context.Languages.Add(lang);
                 context.SaveChanges();
 
-                // Read
                 var myLang = await context.Languages.FirstOrDefaultAsync(x => x.EnglishName == lang.EnglishName);
+                Assert.Equal("en-US", myLang.ISOCode);
+            }
+        }
 
-                Assert.Equal("English", myLang.EnglishName);
 
-                // Update 
-                myLang.EnglishName = "Spanish";
-                context.Update(myLang);
+        /// <summary>
+        /// Can update a Language in the database
+        /// </summary>
+        [Fact]
+        public async void CanUpdateLangCRUDTest()
+        {
+            DbContextOptions<LingDbContext> options =
+                new DbContextOptionsBuilder<LingDbContext>()
+                .UseInMemoryDatabase("LingUpdateDBContex")
+                .Options;
+
+            using (LingDbContext context = new LingDbContext(options))
+            {
+                Language lang = new Language();
+                lang.EnglishName = "English";
+                lang.ISOCode = "en-US";
+                context.Languages.Add(lang);
+                context.SaveChanges();
+                lang.EnglishName = "Spanish";
+                context.Languages.Update(lang);
                 context.SaveChanges();
 
-                var newLang = await context.Languages.FirstOrDefaultAsync(l => l.EnglishName == myLang.EnglishName);
+                var myLang = await context.Languages.FirstOrDefaultAsync(x => x.EnglishName == lang.EnglishName);
+                Assert.Equal("Spanish", myLang.EnglishName);
+            }
+        }
 
-                Assert.Equal("Spanish", newLang.EnglishName);
 
-                // Delete
+        /// <summary>
+        /// Can delete language from databases
+        /// </summary>
+        [Fact]
+        public async void CanDeleteLangCRUDTest()
+        {
+            DbContextOptions<LingDbContext> options =
+                new DbContextOptionsBuilder<LingDbContext>()
+                .UseInMemoryDatabase("LingUpdateDBContex")
+                .Options;
+
+            using (LingDbContext context = new LingDbContext(options))
+            {
+                Language lang = new Language();
+                lang.EnglishName = "English";
+                lang.ISOCode = "en-US";
+                context.Languages.Add(lang);
+                context.SaveChanges();
+                var newLang = await context.Languages.FirstOrDefaultAsync(x => x.EnglishName == lang.EnglishName);
                 context.Languages.Remove(newLang);
                 context.SaveChanges();
-
                 var deletedLang = await context.Languages.FirstOrDefaultAsync(l => l.EnglishName == newLang.EnglishName);
 
                 Assert.True(deletedLang == null);
             }
         }
+      
 
         /// <summary>
         /// Can get recording
@@ -103,13 +170,15 @@ namespace LingTest
             Assert.Equal("Spanish", rec.Transcription);
         }
 
-
+        /// <summary>
+        /// Can Create a recording in the database
+        /// </summary>
         [Fact]
-        public async void RecordingCRUDTest()
+        public async void CanCreateRecordingCRUDTest()
         {
             DbContextOptions<LingDbContext> options =
                 new DbContextOptionsBuilder<LingDbContext>()
-                .UseInMemoryDatabase("RecordingDBContex")
+                .UseInMemoryDatabase("RecordingCreateDBContex")
                 .Options;
 
             using (LingDbContext context = new LingDbContext(options))
@@ -122,21 +191,89 @@ namespace LingTest
                 context.Recordings.Add(rec);
                 context.SaveChanges();
 
+                var myRec = await context.Recordings.FirstOrDefaultAsync(x => x.Transcription == rec.Transcription);
+                Assert.Equal("English", myRec.Transcription);
+            }
+        }
+
+
+        /// <summary>
+        /// Can read a recording in the database
+        /// </summary>
+        [Fact]
+        public async void CanReadRecordingCRUDTest()
+        {
+            DbContextOptions<LingDbContext> options =
+                new DbContextOptionsBuilder<LingDbContext>()
+                .UseInMemoryDatabase("RecordingReadDBContex")
+                .Options;
+
+            using (LingDbContext context = new LingDbContext(options))
+            {
                 // Read
-                var myRecording = await context.Recordings.FirstOrDefaultAsync(x => x.Transcription == rec.Transcription);
+                Recording rec = new Recording();
+                rec.Transcription = "English";
+                rec.ID = 1;
 
-                Assert.Equal("English", myRecording.Transcription);
-
-                // Update 
-                myRecording.Transcription = "Spanish";
-                context.Update(myRecording);
+                context.Recordings.Add(rec);
                 context.SaveChanges();
 
-                var newRecording = await context.Recordings.FirstOrDefaultAsync(l => l.Transcription == myRecording.Transcription);
+                var myRec = await context.Recordings.FirstOrDefaultAsync(x => x.Transcription == rec.Transcription);
+                Assert.Equal(1, myRec.ID);
+            }
+        }
+
+
+        /// <summary>
+        /// Can update a recording in the database
+        /// </summary>
+        [Fact]
+        public async void CanUpdateRecordingCRUDTest()
+        {
+            DbContextOptions<LingDbContext> options =
+                new DbContextOptionsBuilder<LingDbContext>()
+                .UseInMemoryDatabase("RecordingUpdateDBContex")
+                .Options;
+
+            using (LingDbContext context = new LingDbContext(options))
+            {
+                Recording rec = new Recording();
+                rec.Transcription = "English";
+                rec.ID = 1;
+
+                context.Recordings.Add(rec);
+                context.SaveChanges();
+                rec.Transcription = "Spanish";
+                context.Recordings.Update(rec);
+                context.SaveChanges();
+
+                var newRecording = await context.Recordings.FirstOrDefaultAsync(l => l.Transcription == rec.Transcription);
 
                 Assert.Equal("Spanish", newRecording.Transcription);
+            }
+        }
 
-                // Delete
+
+        /// <summary>
+        /// Can delete recording from databases
+        /// </summary>
+        [Fact]
+        public async void CanDeleteRecordingCRUDTest()
+        {
+            DbContextOptions<LingDbContext> options =
+                new DbContextOptionsBuilder<LingDbContext>()
+                .UseInMemoryDatabase("LingUpdateDBContex")
+                .Options;
+
+            using (LingDbContext context = new LingDbContext(options))
+            {
+                Recording rec = new Recording();
+                rec.Transcription = "English";
+                rec.ID = 1;
+
+                context.Recordings.Add(rec);
+                context.SaveChanges();
+                var newRecording = await context.Recordings.FirstOrDefaultAsync(x => x.Transcription == rec.Transcription);
                 context.Recordings.Remove(newRecording);
                 context.SaveChanges();
 
