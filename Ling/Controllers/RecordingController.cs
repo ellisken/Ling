@@ -47,10 +47,19 @@ namespace Ling.Controllers
             string path = await CreatePath(data);
             blob.UploadFile(container, data.FileName, path);
 
-            //TODO
+
             //Get Uri back from blob storage
+            var newBlobURI = blob.GetBlob(data.FileName, container).StorageUri.PrimaryUri.ToString();
+
+            Recording recording = new Recording()
+            {
+                FileName = data.FileName,
+                URI = newBlobURI,
+            };
 
             //Create Recording entry in app's DB
+            await _recordings.AddRecording(recording);
+
             return;
         }
 

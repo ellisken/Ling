@@ -42,9 +42,9 @@ namespace Ling.Models
         /// <param name="fileName">The file's name</param>
         /// <param name="containerName">The container's name</param>
         /// <returns>The requested blob (by name)</returns>
-        public CloudBlob GetBlob(string fileName, string containerName)
+        public CloudBlob GetBlob(string fileName, CloudBlobContainer containerName)
         {
-            var container = CloudBlobClient.GetContainerReference(containerName);
+            var container = CloudBlobClient.GetContainerReference(containerName.Name);
             var blob = container.GetBlobReference(fileName);
             return blob;
         }
