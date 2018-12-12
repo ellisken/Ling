@@ -150,32 +150,30 @@ function stopRecording() {
 
 // Cited from Recorder.js tutorial. May be tweaked to our app if necessary.
 function appendAudioElement(blob) {
+    const url = URL.createObjectURL(blob);
 
-    if ($(recordingsList).is(':empty')) {
-        const url = URL.createObjectURL(blob);
+    // Create html elements
+    const au = document.createElement('audio');
+    const li = document.createElement('li');
 
-        // Create html elements
-        const au = document.createElement('audio');
-        const li = document.createElement('li');
+    //name of .wav file to use during upload and download (without extendion)
+    let filename = new Date().toISOString();
 
-        //name of .wav file to use during upload and download (without extendion)
-        let filename = new Date().toISOString();
+    //add controls to the <audio> element
+    au.controls = true;
+    au.src = url;
 
-        //add controls to the <audio> element
-        au.controls = true;
-        au.src = url;
+    //add the new audio element to li
+    li.appendChild(au);
 
-        //add the new audio element to li
-        li.appendChild(au);
+    //add the filename to the li
+    li.appendChild(document.createTextNode(filename + ".wav "));
 
-        //add the filename to the li
-        li.appendChild(document.createTextNode(filename + ".wav "));
-
-        // Call function that appends link to upload to server
-        appendUploadLinkAndAttachEventListener(blob, filename, li);
-    }
+    // Call function that appends link to upload to server
+    appendUploadLinkAndAttachEventListener(blob, filename, li);
 }
 
+// 
 const uploadEventHandler = (e, blob, filename) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function (e) {
