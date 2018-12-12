@@ -22,6 +22,13 @@ namespace Ling.Models.ViewModels
         /// </value>
         public float Confidence { get; set; }
 
+        /// <summary>
+        /// Gets or sets the language.
+        /// </summary>
+        /// <value>
+        /// The language.
+        /// </value>
         public string Language { get; set; }
+
     }
 }
