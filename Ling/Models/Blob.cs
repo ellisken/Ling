@@ -55,10 +55,10 @@ namespace Ling.Models
         /// <param name="container">The blob container</param>
         /// <param name="fileName">File to upload's name</param>
         /// <param name="filePath">File to upload's path</param>
-        public async void UploadFile(CloudBlobContainer container, string fileName, Stream filePath)
+        public async void UploadFile(CloudBlobContainer container, string fileName, string filePath)
         {
             var blobfile = container.GetBlockBlobReference(fileName);
-            await blobfile.UploadFromFileAsync(fileName);
+            await blobfile.UploadFromFileAsync(filePath);
         }
     }
 }

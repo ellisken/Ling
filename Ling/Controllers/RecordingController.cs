@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Ling.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -16,10 +18,12 @@ namespace Ling.Controllers
     public class RecordingController : Controller
     {
         IConfiguration _configuration;
+        IHostingEnvironment _environment;
 
-        public RecordingController(IConfiguration configuration)
+        public RecordingController(IConfiguration configuration, IHostingEnvironment env)
         {
             _configuration = configuration;
+            _environment = env;
         }
         /// <summary>
         /// Displays all saved recordings
@@ -31,17 +35,19 @@ namespace Ling.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string blobUrl, string filename)
+        public async Task Create()
         {
+            var data = HttpContext.Request.Form.Files[0];
             Blob blob = new Blob(_configuration["BlobStorageAccountName"], _configuration["BlobStorageKey"], _configuration);
             CloudBlobContainer container = await blob.GetContainer("soundrecording");
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(blobUrl);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream inputStream = response.GetResponseStream();
 
             //Send to blob storage
-            blob.UploadFile(container, filename, inputStream);
+            string envPath = $"{_environment.WebRootPath}\\images\\banner1.svg";
+            //string path = await CreatePath(data);
+            blob.UploadFile(container, data.FileName, envPath);
+
             //Get Uri back from blob storage
+
             //Create Recording entry in app's DB
             return;
         }
@@ -49,6 +55,17 @@ namespace Ling.Controllers
     //Action that receives a clip?
     //Action that sends a clip to API, gets results, saves clip to DB, and displays results to user
     //etc.
+
+        public async Task<string> CreatePath(IFormFile data)
+        {
+            //var filepath = Path.GetTempFileName();
+            string filepath = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString();
+            using (var stream = new FileStream(filepath, FileMode.Create))
+            {
+                await data.CopyToAsync(stream);
+            }
+            return filepath;
+        }
 
 }
 }
