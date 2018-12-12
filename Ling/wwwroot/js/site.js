@@ -74,7 +74,9 @@ function startRecording() {
 
         // Stop recording after 30 sec
         setTimeout(() => {
-            stopRecording();
+            rec.stop();
+            // append audio html element
+            rec.exportWAV(appendAudioElement)
         }, 31000);
 
         // Set "Record" button text to "Pause"
@@ -100,23 +102,20 @@ function toggleEnabledOnRecordButton() {
 function pauseOrResumeRecording() {
     // Make sure user can stop the recording at any time
     stopButton.disabled = false;
-    const maxAudioClipLength = rec.context.currentTime < 200000;
 
-    if (rec.recording && maxAudioClipLength) {
+    if (rec.recording) {
         console.log("pause hit on rec.recording =", rec.recording);
         // Pause
         rec.stop();
         // Change UI text of "Pause" button to "Resume"
         $recordButton.html("Resume");
         toggleEnabledOnRecordButton();
-    } else if (maxAudioClipLength) {
+    } else {
         console.log("resume hit on rec.recording =", rec.recording);
         // Resume
         rec.record();
         $recordButton.html("Pause");
         toggleEnabledOnRecordButton();
-    } else {
-        stopRecording();
     }
 }
 
@@ -136,65 +135,63 @@ function stopRecording() {
     // Get Recorder object to stop recording
     rec.stop();
 
+    // Close audio ctx
+    rec.context.close();
+
     // Stop microphone access
     getUserMediaStream.getAudioTracks()[0].stop();
 
     // Create WAV blob and pass on to createDownloadLink
-    rec.exportWAV(createDownloadLink);
+    rec.exportWAV(appendAudioElement);
 }
 
 
 /* Functions to call after audio has been recorded */
 
 // Cited from Recorder.js tutorial. May be tweaked to our app if necessary.
-function createDownloadLink(blob) {
+function appendAudioElement(blob) {
 
-    var url = URL.createObjectURL(blob);
-    var au = document.createElement('audio');
-    var li = document.createElement('li');
-    var link = document.createElement('a');
+    if ($(recordingsList).is(':empty')) {
+        const url = URL.createObjectURL(blob);
 
-    //name of .wav file to use during upload and download (without extendion)
-    var filename = new Date().toISOString();
+        // Create html elements
+        const au = document.createElement('audio');
+        const li = document.createElement('li');
 
-    //add controls to the <audio> element
-    au.controls = true;
-    au.src = url;
+        //name of .wav file to use during upload and download (without extendion)
+        let filename = new Date().toISOString();
 
-    //save to disk link
-    link.href = url;
-    link.download = filename + ".wav"; //download forces the browser to donwload the file using the  filename
-    link.innerHTML = "Save to disk";
+        //add controls to the <audio> element
+        au.controls = true;
+        au.src = url;
 
-    //add the new audio element to li
-    li.appendChild(au);
+        //add the new audio element to li
+        li.appendChild(au);
 
-    //add the filename to the li
-    li.appendChild(document.createTextNode(filename + ".wav "))
+        //add the filename to the li
+        li.appendChild(document.createTextNode(filename + ".wav "));
 
-    //add the save to disk link to li
-    li.appendChild(link);
-
-    // Call function that appends link to upload to server
-    appendUploadLinkAndAttachEventListener(blob, filename);
+        // Call function that appends link to upload to server
+        appendUploadLinkAndAttachEventListener(blob, filename, li);
+    }
 }
 
 const uploadEventHandler = (event, blob, filename) => {
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.onload = function (e) {
         if (this.readyState === 4) {
             console.log("Server returned: ", e.target.responseText);
         }
     };
-    var fd = new FormData();
+    const fd = new FormData();
     fd.append("audio_data", blob, filename);
     xhr.open("POST", "/Recording/Create", true);
     xhr.send(fd);
 }
 
-function appendUploadLinkAndAttachEventListener(blob, filename) {
+function appendUploadLinkAndAttachEventListener(blob, filename, li) {
     // Append upload link
-    var upload = document.createElement('a');
+    const upload = document.createElement('a');
     upload.href = "#";
     upload.innerHTML = "Upload";
 
