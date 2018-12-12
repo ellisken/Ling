@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Grpc.Auth;
 using static Google.Cloud.Speech.V1.RecognitionConfig.Types;
 using Google.Api.Gax.Grpc;
+using Microsoft.Extensions.Configuration;
 
 namespace Ling.Models.Services
 {
@@ -17,11 +18,13 @@ namespace Ling.Models.Services
     {
         public LingDbContext _context { get; set; }
         private readonly GoogleCredential _googleCredential;
+        IConfiguration _configuration;
 
-        public RecordingService(LingDbContext context, GoogleCredential googleCredential)
+        public RecordingService(IConfiguration configuration, LingDbContext context, GoogleCredential googleCredential)
         {
             _context = context;
             _googleCredential = googleCredential;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -48,10 +51,15 @@ namespace Ling.Models.Services
         /// <summary>
         /// Read
         /// </summary>
-        /// <returns>All Recordings in db</returns>
+        /// <returns>A list of all recording objects that have a language attribute</returns>
         public async Task<IEnumerable<Recording>> GetRecordings()
         {
-            return await _context.Recordings.ToListAsync();
+            IEnumerable<Recording> recordings = await _context.Recordings.ToListAsync();
+            foreach(Recording r in recordings)
+            {
+                r.Language = await _context.Languages.FirstOrDefaultAsync(l => l.ID == r.LanguageID);
+            }
+            return recordings;
         }
 
         /// <summary>
