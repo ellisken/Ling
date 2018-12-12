@@ -142,6 +142,41 @@ namespace Ling.Data
                     OriginalName = "بهاس ملايو‎",
                     Romanized = "Bahasa Melayu",
                     ISOCode = "ms-MY"
+                }, 
+
+                new Language
+                {
+                    ID = 13,
+                    EnglishName = "Swahili",
+                    OriginalName = "‎",
+                    Romanized = "",
+                    ISOCode = "ms-MY"
+                },
+
+                new Language
+                {
+                    ID = 14,
+                    EnglishName = "Amharic",
+                    OriginalName = "‎",
+                    Romanized = "Bahasa Melayu",
+                    ISOCode = "ms-MY"
+                },
+
+                new Language
+                {
+                    ID = 15,
+                    EnglishName = "German",
+                    OriginalName = "‎",
+                    Romanized = "Bahasa Melayu",
+                    ISOCode = "ms-MY"
+                },
+                new Language
+                {
+                    ID = 16,
+                    EnglishName = "Polish",
+                    OriginalName = "‎",
+                    Romanized = "Bahasa Melayu",
+                    ISOCode = "ms-MY"
                 });
 
         }
