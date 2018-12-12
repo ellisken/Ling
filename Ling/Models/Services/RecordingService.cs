@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Grpc.Auth;
 using static Google.Cloud.Speech.V1.RecognitionConfig.Types;
 using Google.Api.Gax.Grpc;
+using Google.Cloud.Translation.V2;
 
 namespace Ling.Models.Services
 {
@@ -91,6 +92,8 @@ namespace Ling.Models.Services
             Channel channel = new Channel(
             SpeechClient.DefaultEndpoint.Host, _googleCredential.ToChannelCredentials());
             SpeechClient speech =  SpeechClient.Create(channel);
+            TranslationClient client = TranslationClient.Create(_googleCredential);
+
             RecognitionAudio audio = await RecognitionAudio.FetchFromUriAsync(url);
             RecognitionConfig config = new RecognitionConfig
             {
@@ -102,6 +105,7 @@ namespace Ling.Models.Services
 
             string transcript = "";
             float confidence = 0f;
+            string language = "";
             // Parse results
             foreach (var res in response.Results)
             {
@@ -115,8 +119,14 @@ namespace Ling.Models.Services
                     }
                 }
             }
+            // If we have a transcript, attempt to identify the language
+            if (confidence > 0)
+            {
+                Detection detection = await client.DetectLanguageAsync(text: transcript);
+                language = detection.Language;
+            }
             await channel.ShutdownAsync();
-            return new TranscriptionViewModel() { Transcript = transcript, Confidence = confidence };
+            return new TranscriptionViewModel() { Transcript = transcript, Confidence = confidence, Language = language };
         }
     }
 }
