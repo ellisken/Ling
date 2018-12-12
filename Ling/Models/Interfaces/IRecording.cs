@@ -20,6 +20,6 @@ namespace Ling.Models.Interfaces
         Task DeleteRecording(int id);
 
         // Transcribe Recording
-        Task<TranscriptionViewModel> Transcribe(string url, string languageCode = "en-US",string[] alternativeLanguages = null);
+        Task<TranscriptionViewModel> Transcribe(string url, string languageCode = "en-US",List<string> alternativeLanguages = null);
     }
 }

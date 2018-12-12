@@ -175,6 +175,9 @@ function appendAudioElement(blob) {
 // Event handler after User clicks "Upload"
 // This function will make a POST request to the RecordingController/Create action via XHR
 const uploadEventHandler = (e, blob, filename) => {
+    //grab selected option from dom, pass to form data
+    const languageRegion = $('#languageRegion option:selected').html();
+
     const xhr = new XMLHttpRequest();
     xhr.onload = function (e) {
         if (this.readyState === 4) {
@@ -184,23 +187,25 @@ const uploadEventHandler = (e, blob, filename) => {
         }
     };
     const fd = new FormData();
+    fd.append("language_region", languageRegion);
     fd.append("audio_data", blob, filename);
     xhr.open("POST", "/Recording/Create", true);
-    xhr.send(fd);
+    xhr.send(fd); 
 }
 
 // Append upload link unto DOM and attach event listener to trigger upload on "click"
 function appendUploadLinkAndAttachEventListener(blob, filename, li) {
-    // Append upload link
-    const upload = document.createElement   ('a');
+    //Create upload link
+    const upload = document.createElement('a');
     upload.href = "#";
     upload.className = 'btn btn-lg btn-success';
     upload.innerHTML = "Ling It!";
 
     // Attach event listener to upload
     upload.addEventListener("click", (e) => uploadEventHandler(e, blob, filename));
-    li.appendChild(upload)//add the upload link to li
+    li.appendChild(upload)//add the upload form to li
 
     // Add the li element to the ol
     recordingsList.appendChild(li);
+    //$('#selectLanguageRegion').show();
 }
