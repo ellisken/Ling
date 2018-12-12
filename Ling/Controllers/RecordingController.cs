@@ -42,9 +42,9 @@ namespace Ling.Controllers
             CloudBlobContainer container = await blob.GetContainer("soundrecording");
 
             //Send to blob storage
-            string envPath = $"{_environment.WebRootPath}\\images\\banner1.svg";
-            //string path = await CreatePath(data);
-            blob.UploadFile(container, data.FileName, envPath);
+            //string envPath = $"{_environment.WebRootPath}\\images\\banner1.svg";
+            string path = await CreatePath(data);
+            blob.UploadFile(container, data.FileName, path);
 
             //Get Uri back from blob storage
 
