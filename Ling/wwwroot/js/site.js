@@ -19,6 +19,7 @@ let audioContext;
 // Grab DOM elements
 const $recordButton = $('#recordButton');
 const stopButton = document.getElementById("stopButton");
+const recordingsList = document.getElementById("recordingsList");
 
 // Attach event listeners
 recordButton.addEventListener("click", recordButtonHandler);
@@ -73,7 +74,11 @@ function startRecording() {
 
         // Stop recording after 30 sec
         setTimeout(() => {
-            stopRecording();
+            if ($recordButton.hasClass("inProgress")) {
+                rec.stop();
+                // Append audio html element
+                rec.exportWAV(appendAudioElement)
+            }
         }, 31000);
 
         // Set "Record" button text to "Pause"
@@ -99,27 +104,24 @@ function toggleEnabledOnRecordButton() {
 function pauseOrResumeRecording() {
     // Make sure user can stop the recording at any time
     stopButton.disabled = false;
-    const maxAudioClipLength = rec.context.currentTime < 200000;
 
-    if (rec.recording && maxAudioClipLength) {
+    if (rec.recording) {
         console.log("pause hit on rec.recording =", rec.recording);
         // Pause
         rec.stop();
         // Change UI text of "Pause" button to "Resume"
         $recordButton.html("Resume");
         toggleEnabledOnRecordButton();
-    } else if (maxAudioClipLength) {
+    } else {
         console.log("resume hit on rec.recording =", rec.recording);
         // Resume
         rec.record();
         $recordButton.html("Pause");
         toggleEnabledOnRecordButton();
-    } else {
-        stopRecording();
     }
 }
 
-// "Stop" a recording
+// "Stop" button event handler
 function stopRecording() {
     console.log("Stop button clicked");
 
@@ -135,106 +137,71 @@ function stopRecording() {
     // Get Recorder object to stop recording
     rec.stop();
 
+    // Close audio ctx
+    rec.context.close();
+
     // Stop microphone access
     getUserMediaStream.getAudioTracks()[0].stop();
 
     // Create WAV blob and pass on to createDownloadLink
-    rec.exportWAV(createDownloadLink);
+    rec.exportWAV(appendAudioElement);
 }
 
 
-/* Functions to call after audio has been recorded */
+/* Functions called after audio has been stopped/recorded */
 
 // Cited from Recorder.js tutorial. May be tweaked to our app if necessary.
-function createDownloadLink(blob) {
+function appendAudioElement(blob) {
+    const url = URL.createObjectURL(blob);
 
-    var url = URL.createObjectURL(blob);
-    var au = document.createElement('audio');
-    var li = document.createElement('li');
-    var link = document.createElement('a');
+    // Create html elements
+    const au = document.createElement('audio');
+    const li = document.createElement('li');
 
     //name of .wav file to use during upload and download (without extendion)
-    var filename = new Date().toISOString();
+    let filename = new Date().toISOString();
 
     //add controls to the <audio> element
     au.controls = true;
     au.src = url;
-
-    //save to disk link
-    link.href = url;
-    link.download = filename + ".wav"; //download forces the browser to donwload the file using the  filename
-    link.innerHTML = "Save to disk";
 
     //add the new audio element to li
     li.appendChild(au);
 
     //add the filename to the li
-    li.appendChild(document.createTextNode(filename + ".wav "))
+    li.appendChild(document.createTextNode(filename + ".wav "));
 
-    //add the save to disk link to li
-    li.appendChild(link);
+    // Call function that appends link to upload to server
+    appendUploadLinkAndAttachEventListener(blob, filename, li);
+}
 
-    //upload link
-    var upload = document.createElement('a');
+// Event handler after User clicks "Upload"
+// This function will make a POST request to the RecordingController/Create action via XHR
+const uploadEventHandler = (e, blob, filename) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function (e) {
+        if (this.readyState === 4) {
+            console.log("Server returned: ", e.target.responseText);
+        }
+    };
+    const fd = new FormData();
+    fd.append("audio_data", blob, filename);
+    xhr.open("POST", "/Recording/Create", true);
+    xhr.send(fd);
+}
+
+// Append upload link unto DOM and attach event listener to trigger upload on "click"
+function appendUploadLinkAndAttachEventListener(blob, filename, li) {
+    // Append upload link
+    const upload = document.createElement('a');
     upload.href = "#";
     upload.innerHTML = "Upload";
-    upload.addEventListener("click", function (event) {
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function (e) {
-            if (this.readyState === 4) {
-                console.log("Server returned: ", e.target.responseText);
-            }
-        };
-        var fd = new FormData();
-        fd.append("audio_data", blob, filename);
-        xhr.open("POST", "/Recording/Create", true);
-        xhr.send(fd);
-    })
+
+    // Attach event listener to upload
+    upload.addEventListener("click", (e) => uploadEventHandler(e, blob, filename));
     li.appendChild(document.createTextNode(" "))//add a space in between
     li.appendChild(upload)//add the upload link to li
 
-    //add the li element to the ol
+    // Add the li element to the ol
     recordingsList.appendChild(li);
-
-    //uploadToServer(url, filename);
-}
-
-function createDownloadLinkCondensed(blob) {
-
-    var url = URL.createObjectURL(blob);
-    var au = document.createElement('audio');
-    var li = document.createElement('li');
-    var link = document.createElement('a');
-
-    //add controls to the <audio> element
-    au.controls = true;
-    au.src = url;
-
-    //link the a element to the blob
-    link.href = url;
-    link.download = new Date().toISOString() + '.wav';
-    link.innerHTML = link.download;
-
-    //add the new audio and a elements to the li element
-    li.appendChild(au);
-    li.appendChild(link);
-
-    //add the li element to the ordered list
-    recordingsList.appendChild(li);
-}
-
-// Make an AJAX POST request to create a new Recording object in the database
-function uploadToServer(blobUrl, filename) {
-
-
-    $.ajax({
-        url: '/Recording/Create',
-        method: 'POST',
-        data: {
-            blobUrl: blobUrl,
-            filename: filename
-        }
-    }).then((resp, status, xhr) => {
-        console.log("recording posts");
-    });
 }
