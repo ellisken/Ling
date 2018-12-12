@@ -187,7 +187,7 @@ function createDownloadLink(blob) {
         };
         var fd = new FormData();
         fd.append("audio_data", blob, filename);
-        xhr.open("POST", "upload.php", true);
+        xhr.open("POST", "/Recording/Create", true);
         xhr.send(fd);
     })
     li.appendChild(document.createTextNode(" "))//add a space in between
@@ -196,7 +196,7 @@ function createDownloadLink(blob) {
     //add the li element to the ol
     recordingsList.appendChild(li);
 
-    uploadToServer(blobUrl);
+    //uploadToServer(url, filename);
 }
 
 function createDownloadLinkCondensed(blob) {
@@ -224,14 +224,15 @@ function createDownloadLinkCondensed(blob) {
 }
 
 // Make an AJAX POST request to create a new Recording object in the database
-function uploadToServer(blobUrl) {
-    e.preventDefault();
+function uploadToServer(blobUrl, filename) {
+
 
     $.ajax({
         url: '/Recording/Create',
         method: 'POST',
         data: {
-            FileName: blobUrl,
+            blobUrl: blobUrl,
+            filename: filename
         }
     }).then((resp, status, xhr) => {
         console.log("recording posts");
