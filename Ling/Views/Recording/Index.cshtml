@@ -10,9 +10,8 @@
         @foreach (var rec in Model)
         {
             <li>
-                <audio controls="true" src="@rec.URI">
-
-                </audio>
+                <h4>@rec.Language.EnglishName</h4>
+                <audio controls src="@rec.URI"></audio>
             </li>
         }
     </ul>
