@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Ling.Models.ViewModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ling.Models.Interfaces
 {
-    interface IRecording
+    public interface IRecording
     {
         // Create
         Task AddRecording(Recording recording);
@@ -17,5 +18,8 @@ namespace Ling.Models.Interfaces
 
         // Delete
         Task DeleteRecording(int id);
+
+        // Transcribe Recording
+        Task<TranscriptionViewModel> Transcribe(string url, string languageCode = "en-US");
     }
 }
