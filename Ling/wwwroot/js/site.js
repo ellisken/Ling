@@ -173,7 +173,8 @@ function appendAudioElement(blob) {
     appendUploadLinkAndAttachEventListener(blob, filename, li);
 }
 
-// 
+// Event handler after User clicks "Upload"
+// This function will make a POST request to the RecordingController/Create action via XHR
 const uploadEventHandler = (e, blob, filename) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function (e) {
@@ -187,6 +188,7 @@ const uploadEventHandler = (e, blob, filename) => {
     xhr.send(fd);
 }
 
+// Append upload link unto DOM and attach event listener to trigger upload on "click"
 function appendUploadLinkAndAttachEventListener(blob, filename, li) {
     // Append upload link
     const upload = document.createElement('a');
