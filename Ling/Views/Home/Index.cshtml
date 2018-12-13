@@ -1,21 +1,116 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<h1>Ling!</h1>
-<div class="audioRecordControls mx-auto text-center">
-    <button class="btn btn-lg btn-danger" id="recordButton">Record</button>
-    <button class="btn btn-lg" id="stopButton">Stop</button>
+
+<div class="text-center mx-auto">
+    <div class="box recordBtn">
+        <div class="object">
+            <div class="outline">
+            </div>
+            <div class="outline" id="delayed">
+            </div>
+            <div class="button">
+            </div>
+            <div class="button" id="circlein">
+                <svg class="mic-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve" style="fill:#ffffff">
+<g><path d="M500,683.8c84.6,0,153.1-68.6,153.1-153.1V163.1C653.1,78.6,584.6,10,500,10c-84.6,0-153.1,68.6-153.1,153.1v367.5C346.9,615.2,415.4,683.8,500,683.8z M714.4,438.8v91.9C714.4,649,618.4,745,500,745c-118.4,0-214.4-96-214.4-214.4v-91.9h-61.3v91.9c0,141.9,107.2,258.7,245,273.9v124.2H346.9V990h306.3v-61.3H530.6V804.5c137.8-15.2,245-132.1,245-273.9v-91.9H714.4z" /></g>
+</svg>
+            </div>
+        </div>
+    </div>
+    <div class="audioRecordControls mx-auto text-center">
+        <div class="row">
+            <div class="col-12 col-md-3 mx-auto">
+                <div id="selectLanguageRegion" class="form-group">
+                    <label for="languageRegion">Select Language Region</label>
+                    <select id="languageRegion" class="form-control ">
+                        <option value="Asia">Asia</option>
+                        <option value="South Asia">South Asia</option>
+                        <option value="Africa">Africa</option>
+                        <option value="Western Europe">Western Europe</option>
+                        <option value="Eastern Europe">Eastern Europe</option>
+                        <option value="South/Latin America">South/Latin America</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="recordingsList" class="text-center"></div>
+
+        <button id="transcribeBtn" class="btn btn-lg btn-success d-none">Transcribe</button>
+    </div>
 </div>
-<div id="selectLanguageRegion">
-    <label>Select Language Region</label>
-    <select id="languageRegion">
-        <option value="Asia">Asia</option>
-        <option value="South Asia">South Asia</option>
-        <option value="Africa">Africa</option>
-        <option value="Western Europe">Western Europe</option>
-        <option value="Eastern Europe">Eastern Europe</option>
-        <option value="South/Latin America">South/Latin America</option>
-    </select>
+<div class="loader-wrap text-center d-none">
+    <div class="loader mx-auto">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="167" height="30" preserveAspectRatio="xMidYMid" style="">
+            <rect id="backgroundrect" width="100%" height="100%" x="0" y="0" fill="none" stroke="none" class="" style="" />
+            <g class="currentLayer" style="">
+                <title>Layer 1</title>
+                <g transform="rotate(180 83.27731323242188,14.847649574279785) " id="svg_1" class="">
+                    <rect ng-attr-x="{{7.6923076923076925 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="24.4937" fill="#e15b64" x="0" width="11.028234958648682" id="svg_2">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.5833333333333334s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{15.384615384615385 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="12.4765" fill="#f47e60" x="14.138762362985062" width="11.028234958648682" id="svg_3">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.6666666666666666s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{23.076923076923077 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="14.7837" fill="#f8b26a" x="28.277526478860864" width="11.028234958648682" id="svg_4">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="0s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{30.76923076923077 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="5.00535" fill="#abbd81" x="42.41628708895519" width="11.028234958648682" id="svg_5">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.75s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{38.46153846153846 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="19.3813" fill="#849b87" x="56.55505471061247" width="11.028234958648682" id="svg_6">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.08333333333333333s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{46.15384615384615 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="22.1178" fill="#e15b64" x="70.69381532070679" width="11.028234958648682" id="svg_7">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.25s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{53.84615384615385 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="29.6133" fill="#f47e60" x="84.83257593080111" width="11.028234958648682" id="svg_8">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.4166666666666667s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{61.53846153846154 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="4.18405" fill="#f8b26a" x="98.97133654089544" width="11.028234958648682" id="svg_9">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.8333333333333334s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{69.23076923076923 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="20.115" fill="#abbd81" x="113.11009715098976" width="11.028234958648682" id="svg_10">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.16666666666666666s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{76.92307692307692 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="29.7009" fill="#849b87" x="127.24887178421" width="11.028234958648682" id="svg_11">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.5s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{84.61538461538461 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="26.7398" fill="#e15b64" x="141.38763239430432" width="11.028234958648682" id="svg_12">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.3333333333333333s" dur="1">
+                        </animate>
+                    </rect>
+                    <rect ng-attr-x="{{92.3076923076923 - config.width/2}}" y="-7.785274647176266e-10" ng-attr-width="{{config.width}}" height="7.38847" fill="#f47e60" x="155.52639300439864" width="11.028234958648682" id="svg_13">
+                        <animate attributeName="height" calcMode="spline" values="20;30;4;20" times="0;0.33;0.66;1" ng-attr-dur="{{config.speed}}" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.9166666666666666s" dur="1">
+                        </animate>
+                    </rect>
+                </g>
+            </g>
+        </svg>
+        <p>Loading</p>
+    </div>
+    
 </div>
-<div id="recordingsList" class="text-center">
+<div class="results d-none">
+    <div class="row">
+        <div class="col-12 col-md-5 mx-auto">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">We think the language is <strong class="d-block text-gray-dark" id="result_language"></strong></h5>
+                    <p class="card-text">Based on: <span id="result_transcript"></span></p>
+                </div>
+            </div>
+            </div>
+        </div>
 </div>

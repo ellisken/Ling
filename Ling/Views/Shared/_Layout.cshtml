@@ -16,38 +16,32 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Ling</a>
+    <div id="wrapper">
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbar">
-            <ul class="navbar-nav mr-auto">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
                 <li class="nav-item active">
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Recordings</a>
                 </li>
             </ul>
         </div>
-    </nav>
-    <partial name="_CookieConsentPartial" />
-    <main role="main" class="container">
-        @RenderBody()
-    </main>
+        <!-- /#sidebar-wrapper -->
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="container-fluid">
+            <nav class="navbar navbar-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation" id="menu-toggle">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+            @RenderBody()
+        </main>
 
 
-    <footer class="footer">
-        <div class="container">
-            <span class="text-muted">2018 - Ling</span>
-        </div>
-    </footer>
+    </div>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -68,6 +62,12 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
         <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
     </environment>
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
