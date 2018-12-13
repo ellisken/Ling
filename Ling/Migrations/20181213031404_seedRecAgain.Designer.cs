@@ -3,14 +3,16 @@ using Ling.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ling.Migrations
 {
     [DbContext(typeof(LingDbContext))]
-    partial class LingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181213031404_seedRecAgain")]
+    partial class seedRecAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
