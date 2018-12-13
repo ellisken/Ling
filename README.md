@@ -27,7 +27,7 @@ The recordings page lists all captured recordings, and allows the user to browse
 ![db-schema](Assets/DBSchema.PNG)
 
 ## Tools used
-Visual Studio, .NET MVC CORE, Entity Framework, CSS/HTML, SQL database, Azure, Google Cloud Speech API (beta), Bootstrap, wavesurfer.js
+Visual Studio, .NET MVC CORE, Entity Framework, CSS/HTML, SQL database, Azure, Azure Blob Storage, [Google Cloud Speech API (beta)](https://cloud.google.com/speech-to-text/docs/multiple-languages), Bootstrap, [wavesurfer.js](https://wavesurfer-js.org/)
 
 ## Security/Performance Report
 [Report](/Security.md)
@@ -37,6 +37,10 @@ Visual Studio, .NET MVC CORE, Entity Framework, CSS/HTML, SQL database, Azure, G
 * [Kendra Ellis](https://github.com/ellisken)
 * [Rebecca Hong](https://github.com/rh24)
 * [Gui Yazbek](https://github.com/gyazbek)
+
+## Acknowledgements
+* [CodeLabs tutorial on Google Speech API](https://codelabs.developers.google.com/codelabs/cloud-speech-intro/index.html#0)
+* [Gregory Dukes from the StickerFire project](https://github.com/StickerFire/StickerFire)
 
 ## License
 MIT
