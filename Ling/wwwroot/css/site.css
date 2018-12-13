@@ -70,6 +70,13 @@ text-indent: 20px;
 line-height: 40px;
 }
 
+#transcribeBtn {
+    width:100%;
+}
+#recordingsList, #recordingsList audio {
+    width: 100%;
+}
+
 .sidebar-nav li a {
     display: block;
     text-decoration: none;
