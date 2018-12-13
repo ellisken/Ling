@@ -10,7 +10,9 @@ html {
     position: relative;
     min-height: 100%;
 }
-
+.navbar.navbar-light {
+    padding: 0.5rem 0.5rem;
+}
 #wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
