@@ -3,14 +3,16 @@ using Ling.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ling.Migrations
 {
     [DbContext(typeof(LingDbContext))]
-    partial class LingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181213011043_trySeed")]
+    partial class trySeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,8 +55,8 @@ namespace Ling.Migrations
                         new { ID = 14, EnglishName = "Arabic (Saudi Arabia)", ISOCode = "ar-SA", OriginalName = "العربية (السعودية)" },
                         new { ID = 15, EnglishName = "Arabic (Egypt)", ISOCode = "ar-EG", OriginalName = "العربية (مصر)" },
                         new { ID = 16, EnglishName = "Bengali (Bangladesh)", ISOCode = "bn-BD", OriginalName = "বাংলা (বাংলাদেশ)" },
-                        new { ID = 17, EnglishName = "Chinese", ISOCode = "cmn-Hans-CN", OriginalName = "普通话 (中国大陆)" },
-                        new { ID = 18, EnglishName = "Chinese", ISOCode = "cmn-Hant-TW", OriginalName = "國語 (台灣)" },
+                        new { ID = 17, EnglishName = "\"Chinese", ISOCode = "cmn-Hans-CN", OriginalName = "普通话 (中国大陆)" },
+                        new { ID = 18, EnglishName = "\"Chinese", ISOCode = "cmn-Hant-TW", OriginalName = "國語 (台灣)" },
                         new { ID = 19, EnglishName = "Hindi (India)", ISOCode = "hi-IN", OriginalName = "हिन्दी (भारत)" },
                         new { ID = 20, EnglishName = "Malay (Malaysia)", ISOCode = "ms-MY", OriginalName = "Bahasa Melayu (Malaysia)" },
                         new { ID = 21, EnglishName = "Swahili (Kenya)", ISOCode = "sw-KE", OriginalName = "Swahili (Kenya)" },
