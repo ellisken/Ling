@@ -3,7 +3,7 @@ for details on configuring this project to bundle and minify static web assets. 
 body {
     padding-bottom: 20px;
     margin-bottom: 60px; /* Margin bottom by footer height */
-    background: #e6e5ec;
+    background-color: white;
 }
 
 html {
@@ -34,7 +34,7 @@ html {
     height: 100%;
     margin-left: -150px;
     overflow-y: auto;
-    background: #343a40;
+    background: black;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -129,6 +129,10 @@ line-height: 40px;
     }
 }
 
+#languageRegion{
+    background-color: black;
+    color: white;
+}
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
@@ -202,8 +206,8 @@ margin-bottom: 100px;
 @keyframes pulse {
     0% {
         transform: scale(1);
-        opacity: 0.5;
-        border: 65px solid rgb(187, 189, 192);
+        opacity: 0.7;
+        border: 65px solid rgb(69, 70, 72);
     }
 
     50% {
@@ -213,8 +217,8 @@ margin-bottom: 100px;
 
     90% {
         transform: scale(2.7);
-        opacity: 0.2;
-        border: 3px solid rgb(184, 184, 184);
+        opacity: 0.3;
+        border: 3px solid black;
     }
 
     100% {
@@ -241,3 +245,26 @@ margin-bottom: 100px;
     margin: 21px;
 }
 
+
+#playPause{
+    border-color: black;
+    background-color:red;
+    margin-top:38px;
+}
+
+#wrapper .list-group-item.active {
+    z-index: 2;
+    color: #fff;
+    background-color: black;
+    border-color: #007bff;
+}
+
+#wrapper .list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: -2px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color:red;
+}
