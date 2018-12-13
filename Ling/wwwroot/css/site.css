@@ -70,6 +70,13 @@ text-indent: 20px;
 line-height: 40px;
 }
 
+#transcribeBtn {
+    width:100%;
+}
+#recordingsList, #recordingsList audio {
+    width: 100%;
+}
+
 .sidebar-nav li a {
     display: block;
     text-decoration: none;
@@ -249,7 +256,7 @@ margin-bottom: 100px;
 #playPause{
     border-color: black;
     background-color:red;
-    margin-top:38px;
+    margin-top:36px;
 }
 
 #wrapper .list-group-item.active {
