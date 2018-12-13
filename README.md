@@ -27,7 +27,7 @@ The recordings page lists all captured recordings, and allows the user to browse
 ![db-schema](Assets/DBSchema.PNG)
 
 ## Tools used
-Visual Studio, .NET MVC CORE, Entity Framework, CSS/HTML, SQL database, Azure, Google Cloud Speech API (beta), Bootstrap
+Visual Studio, .NET MVC CORE, Entity Framework, CSS/HTML, SQL database, Azure, Google Cloud Speech API (beta), Bootstrap, wavesurfer.js
 
 ## Security/Performance Report
 [Report](/Security.md)
