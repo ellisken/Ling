@@ -43,7 +43,7 @@ namespace Ling
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             //Add db context
-            services.AddDbContext<LingDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:ProductionDb"]));
+            services.AddDbContext<LingDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             string gac = Configuration["GAC"].Replace("\\\"", "\"");
             // Add Google Credential

@@ -6,6 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Cloud.Speech.V1" Version="1.0.1" />
     <PackageReference Include="Google.Cloud.Speech.V1P1Beta1" Version="1.0.0-beta02" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
