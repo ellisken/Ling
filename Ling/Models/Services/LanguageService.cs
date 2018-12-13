@@ -80,11 +80,11 @@ namespace Ling.Models.Services
         /// <returns></returns>
         public async Task<Language> GetLanguage(string isoCode)
         {
-            Language lang = await _context.Languages.FirstOrDefaultAsync(x => x.ISOCode == isoCode);
+            Language lang = await _context.Languages.FirstOrDefaultAsync(x => x.ISOCode.ToLower() == isoCode);
             if (lang == null)
             {
                 string s = isoCode.Split('-')[0];
-                lang = await _context.Languages.Where(x => x.ISOCode.Contains(s)).FirstOrDefaultAsync();
+                lang = await _context.Languages.Where(x => x.ISOCode.ToLower().Contains(s)).FirstOrDefaultAsync();
             }
             return lang;
         }

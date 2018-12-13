@@ -24,12 +24,12 @@ namespace Ling.Controllers
         // Store alternate language codes by region
         private Dictionary<string, List<string>> Languages = new Dictionary<string, List<string>>()
         {
-            ["Asia"] = new List<string> { "cmn-hans-cn", "ms-my", "ja-jp" },
-            ["South Asia"] = new List<string> { "hi-in", "bn-in", "ar-eg" },
-            ["Africa"] = new List<string> { "ar-eg", "sw-ke" },
-            ["Western Europe"] = new List<string> { "en-us", "de-de", "fr-fr", "es-es" },
-            ["Eastern Europe"] = new List<string> { "ru-ru", "pl-pl" },
-            ["South/Latin America"] = new List<string> { "es-mx", "pt-br" }
+            ["Asia"] = new List<string> { "cmn", "ms", "ja" },
+            ["South Asia"] = new List<string> { "hi", "bn", "ar" },
+            ["Africa"] = new List<string> { "ar", "sw" },
+            ["Western Europe"] = new List<string> { "en", "de", "fr", "es" },
+            ["Eastern Europe"] = new List<string> { "ru", "pl" },
+            ["South/Latin America"] = new List<string> { "es", "pt" }
         };
 
 
