@@ -18,7 +18,7 @@ namespace Ling.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Return home view
         /// </summary>
         /// <returns></returns>
         public IActionResult Index()
@@ -26,6 +26,10 @@ namespace Ling.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Display About page
+        /// </summary>
+        /// <returns></returns>
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -33,6 +37,10 @@ namespace Ling.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Display Contact us page
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
@@ -40,11 +48,10 @@ namespace Ling.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+        /// <summary>
+        /// Display Error page
+        /// </summary>
+        /// <returns></returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
