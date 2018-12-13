@@ -84,7 +84,7 @@ namespace Ling.Models.Services
             if (lang == null)
             {
                 string s = isoCode.Split('-')[0];
-                lang = await _context.Languages.Where(x => x.ISOCode.ToLower().Contains(s)).FirstOrDefaultAsync();
+                lang = await _context.Languages.Where(x => x.ISOCode.ToLower().StartsWith(s)).FirstOrDefaultAsync();
             }
             return lang;
         }
