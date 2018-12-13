@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Ling.Models;
-using Microsoft.Extensions.Configuration;
+﻿using Ling.Models;
 using Ling.Models.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace Ling.Controllers
 {
@@ -21,11 +17,12 @@ namespace Ling.Controllers
             _recording = recording;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
-            //string [] alts = new string[] { "pt-BR", "ru-RU", "cmn-Hant-TW" };
-            //var results = await _recording.Transcribe("http://www.signalogic.com/melp/EngSamples/eng_m1.wav", "en-US", alts);
-
             return View();
         }
 
