@@ -1,4 +1,4 @@
-﻿/* Tutorial used to get started with Recorder.js
+/* Tutorial used to get started with Recorder.js
  * https://addpipe.com/blog/using-recorder-js-to-capture-wav-audio-in-your-html5-web-site/
 */
 

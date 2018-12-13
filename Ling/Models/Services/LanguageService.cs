@@ -1,7 +1,6 @@
 ﻿using Ling.Data;
 using Ling.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace Ling.Models.Services
         //Create
         /// <summary>
         /// Adds a new language entry to the Language table
-        /// </summary>
+        /// </summary>C:\Users\curtl\source\repos\Ling\Ling\Models\Services\LanguageService.cs
         /// <param name="language">Completed task</param>
         /// <returns></returns>
         public async Task AddLanguage(Language language)
@@ -81,7 +80,13 @@ namespace Ling.Models.Services
         /// <returns></returns>
         public async Task<Language> GetLanguage(string isoCode)
         {
-            return await _context.Languages.FirstOrDefaultAsync(lang => lang.ISOCode == isoCode);
+            Language lang = await _context.Languages.FirstOrDefaultAsync(x => x.ISOCode.ToLower() == isoCode);
+            if (lang == null)
+            {
+                string s = isoCode.Split('-')[0];
+                lang = await _context.Languages.Where(x => x.ISOCode.ToLower().Contains(s)).FirstOrDefaultAsync();
+            }
+            return lang;
         }
     }
 }

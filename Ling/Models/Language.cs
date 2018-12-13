@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Ling.Models
 {
@@ -13,6 +10,7 @@ namespace Ling.Models
         public string Romanized { get; set; }
         public string ISOCode { get; set; }
 
+        // Navigation prop
         public ICollection<Recording> Recordings { get; set; }
     }
 }
