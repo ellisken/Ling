@@ -29,6 +29,9 @@ The recordings page lists all captured recordings, and allows the user to browse
 ## Tools used
 Visual Studio, .NET MVC CORE, Entity Framework, CSS/HTML, SQL database, Azure, Google Cloud Speech API (beta), Bootstrap
 
+## Security/Performance Report
+[Report](/Security.md)
+
 ## Contributors
 * [Tre Cain](https://github.com/trecain)
 * [Kendra Ellis](https://github.com/ellisken)
