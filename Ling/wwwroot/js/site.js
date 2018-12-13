@@ -16,30 +16,21 @@ let AudioContext = window.AudioContext || webkit.AudioContext;
 // New audio context that helps us record
 let audioContext;
 
+let audioBlob;
 // Grab DOM elements
-const $recordButton = $('#recordButton');
-const stopButton = document.getElementById("stopButton");
+
 const recordingsList = document.getElementById("recordingsList");
 
-// Attach event listeners
-recordButton.addEventListener("click", recordButtonHandler);
-stopButton.addEventListener("click", stopRecording);
+
 
 
 /* Event handlers */
 
-// Pause, Resume, or Record based on classes on recordButton
-function recordButtonHandler() {
-    if ($recordButton.hasClass("inProgress")) {
-        pauseOrResumeRecording();
-    } else {
-        startRecording();
-    }
-}
-
 function startRecording() {
     // If there is a recording in the recordingsList, remove it. This way we keep only one recording in the list at a time.
     $('#recordingsList').empty();
+    $(".results").toggleClass("d-none", true);
+
 
     /*
       getUserMedia() is a promise-based method that prompts the user for permission to use a media input, which produces a MediaStream object with a specified list of a/v tracks. In our case, the stream wil have an audio track.
@@ -50,10 +41,6 @@ function startRecording() {
     const constraints = { audio: true, video: false };
 
     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-        $recordButton.addClass("inProgress");
-        toggleEnabledOnRecordButton();
-        stopButton.disabled = false;
-
         console.log("permissions granted!! i'm in the promise!");
 
         // Assign our getUserMediaStream global variable to the recorded stream for later use
@@ -74,68 +61,25 @@ function startRecording() {
 
         // Stop recording after 30 sec
         setTimeout(() => {
-            if ($recordButton.hasClass("inProgress")) {
-                rec.stop();
-                // Append audio html element
-                rec.exportWAV(appendAudioElement)
+            if (rec.recording) {
+                stopRecording();
             }
         }, 31000);
-
-        // Set "Record" button text to "Pause"
-        $recordButton.html("Pause");
 
         console.log("recording has started");
     }).catch((err) => {
         // Enable the "Record" button again if the recording fails
-        stopButton.disabled = true;
+        $('.outline').toggleClass("pulse", false);
     });
-}
-
-// TODO: When styling, the "enabled" class can have an active style... maybe pause icon versus play icon
-function toggleEnabledOnRecordButton() {
-    if ($recordButton.hasClass("enabled")) {
-        $recordButton.removeClass("enabled");
-    } else {
-        $recordButton.addClass("enabled");
-    }
-}
-
-// "Pause" or "Resume" a recording
-function pauseOrResumeRecording() {
-    // Make sure user can stop the recording at any time
-    stopButton.disabled = false;
-
-    if (rec.recording) {
-        console.log("pause hit on rec.recording =", rec.recording);
-        // Pause
-        rec.stop();
-        // Change UI text of "Pause" button to "Resume"
-        $recordButton.html("Resume");
-        toggleEnabledOnRecordButton();
-    } else {
-        console.log("resume hit on rec.recording =", rec.recording);
-        // Resume
-        rec.record();
-        $recordButton.html("Pause");
-        toggleEnabledOnRecordButton();
-    }
 }
 
 // "Stop" button event handler
 function stopRecording() {
     console.log("Stop button clicked");
 
-    // Disable the stop button
-    stopButton.disabled = true;
-
-    // Reset "Record" button text when recording is stopped
-    $recordButton.html("Record");
-
-    // Remove "inProgress" class to show recording is stopped
-    $recordButton.removeClass("inProgress");
-
     // Get Recorder object to stop recording
     rec.stop();
+    $("#transcribeBtn").toggleClass("d-none", false);
 
     // Close audio ctx
     rec.context.close();
@@ -148,15 +92,33 @@ function stopRecording() {
 }
 
 
+$(".recordBtn").click(function () {
+    RecordToggleButton();
+    console.log("Clicked");
+});
+
+
+function RecordToggleButton() {
+        if(rec === undefined ||!rec.recording) {
+            startRecording();
+            $('.outline').toggleClass("pulse", true);
+        } else {
+            stopRecording();
+            $('.outline').toggleClass("pulse", false);
+        }
+}
+
+
 /* Functions called after audio has been stopped/recorded */
 
 // Cited from Recorder.js tutorial. May be tweaked to our app if necessary.
 function appendAudioElement(blob) {
+    audioBlob = blob;
+
     const url = URL.createObjectURL(blob);
 
     // Create html elements
     const au = document.createElement('audio');
-    const li = document.createElement('div');
 
     //name of .wav file to use during upload and download (without extendion)
     let filename = new Date().toISOString();
@@ -166,46 +128,34 @@ function appendAudioElement(blob) {
     au.src = url;
 
     //add the new audio element to li
-    li.appendChild(au);
-
-    // Call function that appends link to upload to server
-    appendUploadLinkAndAttachEventListener(blob, filename, li);
+    recordingsList.appendChild(au);
 }
 
-// Event handler after User clicks "Upload"
-// This function will make a POST request to the RecordingController/Create action via XHR
-const uploadEventHandler = (e, blob, filename) => {
+$("#transcribeBtn").click(function () {
     //grab selected option from dom, pass to form data
     const languageRegion = $('#languageRegion option:selected').html();
+    $(".loader-wrap").toggleClass("d-none", false);
+    $("#transcribeBtn").toggleClass("d-none", true);
+
+    
 
     const xhr = new XMLHttpRequest();
-    xhr.onload = function (e) {
+    xhr.onload = function () {
         if (this.readyState === 4) {
             var jsonResponse = JSON.parse(xhr.responseText);
+            $(".loader-wrap").toggleClass("d-none", true);
 
-            $('#recordingsList').append('<div class="results my-3 p-3 bg-white rounded box-shadow"><h6 class="border-bottom border-gray pb-2 mb-0">Transcription</h6><div class="media text-muted pt-3"><p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"><strong class="d-block text-gray-dark">' + jsonResponse.language + '</strong>' + jsonResponse.transcript + '</p></div><small class="d-block text-right mt-3"><a href="#">View Transcripts</a></small></div>');
+            $("#result_language").text(jsonResponse.language);
+            $("#result_transcript").text(jsonResponse.transcript);
+
+            $(".results").toggleClass("d-none", false);
+
         }
     };
     const fd = new FormData();
     fd.append("language_region", languageRegion);
-    fd.append("audio_data", blob, filename);
+    fd.append("audio_data", audioBlob, new Date().toISOString());
     xhr.open("POST", "/Recording/Create", true);
     xhr.send(fd); 
-}
 
-// Append upload link unto DOM and attach event listener to trigger upload on "click"
-function appendUploadLinkAndAttachEventListener(blob, filename, li) {
-    //Create upload link
-    const upload = document.createElement('a');
-    upload.href = "#";
-    upload.className = 'btn btn-lg btn-success';
-    upload.innerHTML = "Ling It!";
-
-    // Attach event listener to upload
-    upload.addEventListener("click", (e) => uploadEventHandler(e, blob, filename));
-    li.appendChild(upload)//add the upload form to li
-
-    // Add the li element to the ol
-    recordingsList.appendChild(li);
-    //$('#selectLanguageRegion').show();
-}
+})
