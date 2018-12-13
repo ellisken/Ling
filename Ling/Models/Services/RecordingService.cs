@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grpc.Auth;
 using static Google.Cloud.Speech.V1P1Beta1.RecognitionConfig.Types;
+using System.Linq;
 
 namespace Ling.Models.Services
 {
@@ -53,13 +54,9 @@ namespace Ling.Models.Services
         /// Read
         /// </summary>
         /// <returns>All Recordings in db</returns>
-        public async Task<IEnumerable<Recording>> GetRecordings()
+        public async Task<IEnumerable<Recording>> GetRecordings(int take = 20, int skip = 0)
         {
-            IEnumerable<Recording> recordings = await _context.Recordings.ToListAsync();
-            foreach(Recording r in recordings)
-            {
-                r.Language = await _context.Languages.FirstOrDefaultAsync(l => l.ID == r.LanguageID);
-            }
+            IEnumerable<Recording> recordings = await _context.Recordings.Include(x => x.Language).Take(take).Skip(skip).ToListAsync();
             return recordings;
         }
 

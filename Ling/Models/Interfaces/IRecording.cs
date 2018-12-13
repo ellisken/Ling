@@ -11,7 +11,7 @@ namespace Ling.Models.Interfaces
 
         // Read
         Task<Recording> GetRecording(int id);
-        Task<IEnumerable<Recording>> GetRecordings();
+        Task<IEnumerable<Recording>> GetRecordings(int take = 20, int skip = 0);
 
         // Update
         Task UpdateRecording(Recording recording);
