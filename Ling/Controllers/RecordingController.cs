@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Ling.Models;
+﻿using Ling.Models;
 using Ling.Models.Interfaces;
 using Ling.Models.ViewModels;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,14 +21,15 @@ namespace Ling.Controllers
         IRecording _recordings;
         ILanguage _languages;
 
+        // Store alternate language codes by region
         private Dictionary<string, List<string>> Languages = new Dictionary<string, List<string>>()
         {
-            ["Asia"] = new List<string> {"cmn-hans-cn", "ms-my", "ja-jp"},
-            ["South Asia"] = new List<string> { "hi-in", "bn-in", "ar-eg"},
-            ["Africa"] = new List<string> { "ar-eg", "sw-ke"},
-            ["Western Europe"] = new List<string> { "en-us", "de-de", "fr-fr", "es-es"},
-            ["Eastern Europe"] = new List<string> { "ru-ru", "pl-pl"},
-            ["South/Latin America"] = new List<string> { "es-mx", "pt-br"}
+            ["Asia"] = new List<string> { "cmn-hans-cn", "ms-my", "ja-jp" },
+            ["South Asia"] = new List<string> { "hi-in", "bn-in", "ar-eg" },
+            ["Africa"] = new List<string> { "ar-eg", "sw-ke" },
+            ["Western Europe"] = new List<string> { "en-us", "de-de", "fr-fr", "es-es" },
+            ["Eastern Europe"] = new List<string> { "ru-ru", "pl-pl" },
+            ["South/Latin America"] = new List<string> { "es-mx", "pt-br" }
         };
 
 
@@ -50,27 +49,36 @@ namespace Ling.Controllers
             return View(await _recordings.GetRecordings());
         }
 
+        /// <summary>
+        /// Create a Recording object with data grabbed from Azure Blob Storage container.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<TranscriptionViewModel> Create()
-
         {
+            // FormData sent by XHR on the front-end. Script can be found in site.js
             var data = HttpContext.Request.Form.Files[0];
+            // Language Region selected by user
             var langRegion = HttpContext.Request.Form["language_region"];
+            // Create Blob instance
             Blob blob = new Blob(_configuration["BlobStorageAccountName"], _configuration["BlobStorageKey"], _configuration);
+            // Grab container that holds all audio blobs
             CloudBlobContainer container = await blob.GetContainer("soundrecording");
 
-            //Send to blob storage
-            string path = await CreatePath(data);
+            // Send to blob storage
+            string path = await CreatePathAsync(data);
             await blob.UploadFile(container, data.FileName, path);
 
-
-            //Get Uri back from blob storage
+            // Get Uri back from blob storage
             var newBlobURI = blob.GetBlob(data.FileName, container).Uri.AbsoluteUri;
+            // Set default language to first string in alt languages List for selected region
             string defaultLang = Languages[langRegion].First();
+            // Set alternate languages to remaining items in List
             List<string> alts = Languages[langRegion].GetRange(1, Languages[langRegion].Count - 1);
+            // Transcribe audio blob with best guess(es) per selected region
             var result = await _recordings.Transcribe(newBlobURI, defaultLang, alts);
 
-            //TODO: add language result to recording before saving
+            // Initialize Recording object and set properties
             Recording recording = new Recording()
             {
                 FileName = data.FileName,
@@ -78,7 +86,8 @@ namespace Ling.Controllers
                 Transcription = result.Transcript,
             };
 
-            if(result.Language != null)
+            // Get language of transcribed result and set it as prop of transcription view model
+            if (result.Language != null)
             {
                 Language language = await _languages.GetLanguage(result.Language.ToLower());
                 if (language != null) {
@@ -94,20 +103,26 @@ namespace Ling.Controllers
 
             //Create Recording entry in app's DB
             await _recordings.AddRecording(recording);
-        
-            return result;
 
+            // Return transcription view model
+            return result;
         }
 
-        public async Task<string> CreatePath(IFormFile data)
+        /// <summary>
+        /// This action creates a temporary file path where the wav blob will live. This is necessary in order to upload it to Blob storage.
+        /// </summary>
+        /// <param name="data">Audio blob sent over from FormData</param>
+        /// <returns>A temporary file path</returns>
+        private async Task<string> CreatePathAsync(IFormFile data)
         {
             string filepath = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString();
+
             using (var stream = new FileStream(filepath, FileMode.Create))
             {
                 await data.CopyToAsync(stream);
             }
+
             return filepath;
         }
-
-}
+    }
 }
