@@ -37,6 +37,7 @@ function recordButtonHandler() {
     }
 }
 
+// Function that gets triggered the first time a user hits "Record"
 function startRecording() {
     // If there is a recording in the recordingsList, remove it. This way we keep only one recording in the list at a time.
     $('#recordingsList').empty();
@@ -150,22 +151,24 @@ function stopRecording() {
 
 /* Functions called after audio has been stopped/recorded */
 
-// Cited from Recorder.js tutorial. May be tweaked to our app if necessary.
+// Appends audio html element to the DOM for playback
 function appendAudioElement(blob) {
+    // Create a URL that represents the audio/wav blob
     const url = URL.createObjectURL(blob);
 
     // Create html elements
     const au = document.createElement('audio');
     const li = document.createElement('div');
 
-    //name of .wav file to use during upload and download (without extendion)
+    // Name of .wav file to use during upload and download (without extendion)
     let filename = new Date().toISOString();
 
-    //add controls to the <audio> element
+    // Add controls to the <audio> element
     au.controls = true;
+    // Set the source of audio element to blob URL
     au.src = url;
 
-    //add the new audio element to li
+    // Add the new audio element to li
     li.appendChild(au);
 
     // Call function that appends link to upload to server
@@ -190,7 +193,7 @@ const uploadEventHandler = (e, blob, filename) => {
     fd.append("language_region", languageRegion);
     fd.append("audio_data", blob, filename);
     xhr.open("POST", "/Recording/Create", true);
-    xhr.send(fd); 
+    xhr.send(fd);
 }
 
 // Append upload link unto DOM and attach event listener to trigger upload on "click"
