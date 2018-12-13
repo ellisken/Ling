@@ -14,6 +14,7 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 </head>
 <body>
     <div id="wrapper">
@@ -25,18 +26,17 @@
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Recordings</a>
+                    <a class="nav-link" asp-area="" asp-controller="Recording" asp-action="Index">Recordings</a>
                 </li>
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
-        <partial name="_CookieConsentPartial" />
+        <nav class="navbar navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation" id="menu-toggle">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
         <main role="main" class="container-fluid">
-            <nav class="navbar navbar-light">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation" id="menu-toggle">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </nav>
             @RenderBody()
         </main>
 
