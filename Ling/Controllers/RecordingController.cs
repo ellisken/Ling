@@ -24,7 +24,7 @@ namespace Ling.Controllers
         // Store alternate language codes by region
         private Dictionary<string, List<string>> Languages = new Dictionary<string, List<string>>()
         {
-            ["Asia"] = new List<string> { "cmn", "ms", "ja" },
+            ["Asia"] = new List<string> { "cmn", "ja", "ms" },
             ["South Asia"] = new List<string> { "hi", "bn", "ar" },
             ["Africa"] = new List<string> { "ar", "sw" },
             ["Western Europe"] = new List<string> { "en", "de", "fr", "es" },
@@ -87,7 +87,7 @@ namespace Ling.Controllers
             };
 
             // Get language of transcribed result and set it as prop of transcription view model
-            if (result.Language != null && result.Language != "")
+            if (result.Language != null && result.Language.Length > 0)
             {
                 Language language = await _languages.GetLanguage(result.Language.ToLower());
                 if (language != null) {
