@@ -28,7 +28,7 @@ namespace Ling.Controllers
             ["South Asia"] = new List<string> { "hi", "bn", "ar" },
             ["Africa"] = new List<string> { "ar", "sw" },
             ["Western Europe"] = new List<string> { "en", "de", "fr", "es" },
-            ["Eastern Europe"] = new List<string> { "ru", "pl" },
+            ["Eastern Europe"] = new List<string> { "ru", "pl-pl" },
             ["South/Latin America"] = new List<string> { "es", "pt" }
         };
 
@@ -87,7 +87,7 @@ namespace Ling.Controllers
             };
 
             // Get language of transcribed result and set it as prop of transcription view model
-            if (result.Language != null)
+            if (result.Language != null && result.Language != "")
             {
                 Language language = await _languages.GetLanguage(result.Language.ToLower());
                 if (language != null) {
@@ -99,10 +99,15 @@ namespace Ling.Controllers
                     result.Language = result.Language;
                 }
 
+                //Create Recording entry in app's DB
+                await _recordings.AddRecording(recording);
+            }
+            //If API returned an empty response, set result.Language equal to error
+            else
+            {
+                result.Language = "Language detection failed, try again.";
             }
 
-            //Create Recording entry in app's DB
-            await _recordings.AddRecording(recording);
 
             // Return transcription view model
             return result;
