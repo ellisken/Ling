@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ling</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="57x57" href="~/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/favicon-16x16.png">
+    <link rel="manifest" href="~/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="~/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="" asp-controller="Recording" asp-action="Index">Recordings</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <nav class="navbar navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation" id="menu-toggle">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+        <main role="main" class="container-fluid">
+            @RenderBody()
+        </main>
+
+
+    </div>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+    </environment>
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
