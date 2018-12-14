@@ -27,7 +27,7 @@ The recordings page lists all captured recordings, and allows the user to browse
 ![db-schema](Assets/DBSchema.PNG)
 
 ## Tools used
-Visual Studio, .NET MVC CORE, Entity Framework, CSS/HTML, SQL database, Azure, Azure Blob Storage, [Google Cloud Speech API (beta)](https://cloud.google.com/speech-to-text/docs/multiple-languages), Bootstrap, [wavesurfer.js](https://wavesurfer-js.org/)
+Visual Studio, .NET MVC CORE, Entity Framework, CSS/HTML, SQL database, Azure, Azure Blob Storage, [Google Cloud Speech API (beta)](https://cloud.google.com/speech-to-text/docs/multiple-languages), Bootstrap, [wavesurfer.js](https://wavesurfer-js.org/), [Recorder.js](https://github.com/mattdiamond/Recorderjs)
 
 ## Security/Performance Report
 [Report](/Security.md)
@@ -41,6 +41,7 @@ Visual Studio, .NET MVC CORE, Entity Framework, CSS/HTML, SQL database, Azure, A
 ## Acknowledgements
 * [CodeLabs tutorial on Google Speech API](https://codelabs.developers.google.com/codelabs/cloud-speech-intro/index.html#0)
 * [Gregory Dukes from the StickerFire project](https://github.com/StickerFire/StickerFire)
+* [Using Recorder.js to capture WAV audio...](https://addpipe.com/blog/using-recorder-js-to-capture-wav-audio-in-your-html5-web-site/)
 
 ## License
 MIT
